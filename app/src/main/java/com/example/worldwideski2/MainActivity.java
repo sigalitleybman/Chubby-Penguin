@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
@@ -19,10 +20,9 @@ public class MainActivity extends AppCompatActivity
     private ImageButton volumeButtonOff;
     private ImageButton settingsButton;
     private ImageButton infoButton;
-    private Dialog dialogSettings;
+    //private Dialog dialogSettings;
     private MediaPlayer musicPlayer;
-    private SeekBar volumeSeekbar;
-    private AudioManager audioManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,49 +31,22 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         volumeButtonOn = findViewById(R.id.image_button_volume_on);
         volumeButtonOff = findViewById(R.id.image_button_volume_off);
-        settingsButton=findViewById(R.id.image_button_settings);
+        settingsButton = findViewById(R.id.image_button_settings);
         infoButton = findViewById(R.id.image_button_info);
-        dialogSettings = new Dialog(this);
-        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        volumeSeekbar = findViewById(R.id.volume_seekbar);
-
-        //get max volume
-        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-
-        //get current volume
-        int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-
-        volumeSeekbar.setMax(maxVolume);
-
-        volumeSeekbar.setProgress(currentVolume);
-
-
-        volumeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                //here we set the volume by putting the 0 in flag
-                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-
-
+       // dialogSettings = new Dialog(this);
         startMusic();
-
-        musicPlayer.start();
+        //musicPlayer.start();
 
         changeToVolumeOff();
         changeToVolumeOn();
+
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, popupSettingsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -138,13 +111,13 @@ public class MainActivity extends AppCompatActivity
         stopMusic();
     }
 
-    /**
-     * This method responsible for showing the dialog settings popup.
-     * @param view - the MainActivity on which we display the dialog settings popup.
-     */
-    public void showSettingsPopup(View view){
-        dialogSettings.setContentView(R.layout.pop_up_settings);
-        dialogSettings.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialogSettings.show();
-    }
+//    /**
+//     * This method responsible for showing the dialog settings popup.
+//     * @param view - the MainActivity on which we display the dialog settings popup.
+//     */
+//    public void showSettingsPopup(View view){
+//        dialogSettings.setContentView(R.layout.pop_up_settings);
+//        dialogSettings.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        dialogSettings.show();
+//    }
 }
