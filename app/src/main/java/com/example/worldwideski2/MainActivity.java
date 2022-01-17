@@ -1,0 +1,150 @@
+package com.example.worldwideski2;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.SeekBar;
+
+public class MainActivity extends AppCompatActivity
+{
+    private ImageButton volumeButtonOn;
+    private ImageButton volumeButtonOff;
+    private ImageButton settingsButton;
+    private ImageButton infoButton;
+    private Dialog dialogSettings;
+    private MediaPlayer musicPlayer;
+    private SeekBar volumeSeekbar;
+    private AudioManager audioManager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        volumeButtonOn = findViewById(R.id.image_button_volume_on);
+        volumeButtonOff = findViewById(R.id.image_button_volume_off);
+        settingsButton=findViewById(R.id.image_button_settings);
+        infoButton = findViewById(R.id.image_button_info);
+        dialogSettings = new Dialog(this);
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        volumeSeekbar = findViewById(R.id.volume_seekbar);
+
+        //get max volume
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
+        //get current volume
+        int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+        volumeSeekbar.setMax(maxVolume);
+
+        volumeSeekbar.setProgress(currentVolume);
+
+
+        volumeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                //here we set the volume by putting the 0 in flag
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+
+        startMusic();
+
+        musicPlayer.start();
+
+        changeToVolumeOff();
+        changeToVolumeOn();
+    }
+
+    /**
+     * Listener for volumeButtonOff.
+     * First we set volumeButtonOff to INVISIBLE and then volumeButtonOn we set to VISIBLE.
+     */
+    private void changeToVolumeOn() {
+        volumeButtonOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startMusic();
+                volumeButtonOff.setVisibility(View.INVISIBLE);
+                volumeButtonOn.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    /**
+     * Listener for volumeButtonOn.
+     * First we set volumeButtonOn to INVISIBLE and then volumeButtonOff we set to VISIBLE.
+     */
+    private void changeToVolumeOff() {
+        volumeButtonOn.setOnClickListener(v -> {
+            stopMusic();
+            volumeButtonOn.setVisibility(View.INVISIBLE);
+            volumeButtonOff.setVisibility(View.VISIBLE);
+        });
+    }
+
+    /**
+     * This method is responsible for starting the music , while saving resources,
+     * if the musicPlayer isn't allocated , it gets allocated.
+     * then if the song is over, we release the resources.
+     *
+     */
+    private void startMusic(){
+        if(musicPlayer == null){
+            musicPlayer = MediaPlayer.create(this, R.raw.audio);
+
+            musicPlayer.setOnCompletionListener(mp -> startMusic());
+        }
+
+        musicPlayer.start();
+    }
+
+    /**
+     * Here we stop the music by realising the resources.
+     */
+    private void stopMusic(){
+        if(musicPlayer != null){
+            musicPlayer.release();
+            musicPlayer = null;
+        }
+    }
+
+    /**
+     * This method responsible for stopping the audio when leaving the app.
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopMusic();
+    }
+
+    /**
+     * This method responsible for showing the dialog settings popup.
+     * @param view - the MainActivity on which we display the dialog settings popup.
+     */
+    public void showSettingsPopup(View view){
+        dialogSettings.setContentView(R.layout.pop_up_settings);
+        dialogSettings.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogSettings.show();
+    }
+}

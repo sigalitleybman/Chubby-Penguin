@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WorldWideSki</string>
+    <string name="main_screen_title">סקי עולמי</string>
+    <string name="lets_start_button">בואו נתחיל</string>
+    <string name="language_textView">שפה:</string>
+    <string name="settings_textView">הגדרות:</string>
+    <string name="hebrew_language">עברית</string>
+    <string name="english_language">אנגלית</string>
+    <string name="volume">שמע:</string>
+</resources>

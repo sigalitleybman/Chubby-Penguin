@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<resources>
+    <string name="app_name">WorldWideSki</string>
+    <string name="main_screen_title">World Wide Ski</string>
+    <string name="lets_start_button">Let\'s start</string>
+    <string name="language_textView">Language:</string>
+    <string name="settings_textView">Settings</string>
+    <string name="hebrew_language">HE</string>
+    <string name="english_language">EN</string>
+    <string name="volume">Volume:</string>
+</resources>
