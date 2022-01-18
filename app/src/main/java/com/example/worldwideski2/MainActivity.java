@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity
     private ImageButton infoButton;
     //private Dialog dialogSettings;
     private MediaPlayer musicPlayer;
-
+    private int flowMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,7 +33,13 @@ public class MainActivity extends AppCompatActivity
         volumeButtonOff = findViewById(R.id.image_button_volume_off);
         settingsButton = findViewById(R.id.image_button_settings);
         infoButton = findViewById(R.id.image_button_info);
-       // dialogSettings = new Dialog(this);
+        flowMusic = R.raw.audio;
+
+        MusicManager.Instance().initializeMusic(this, flowMusic);
+
+
+
+        // dialogSettings = new Dialog(this);
         startMusic();
         //musicPlayer.start();
 
@@ -108,7 +114,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        stopMusic();
+        //stopMusic();
     }
 
 //    /**
