@@ -79,6 +79,4 @@ public class LevelActivity extends AppCompatActivity {
 
     }
 
-
-
 }
