@@ -52,6 +52,7 @@
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
             android:background="@null"
+            android:onClick="showInfoPopup"
             android:src="@drawable/info"
             app:tint="@color/black" />
 

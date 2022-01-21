@@ -9,4 +9,6 @@
     <string name="hebrew_language">HE</string>
     <string name="english_language">EN</string>
     <string name="volume">Volume:</string>
+    <string name="instructions">Instructions</string>
+    <string name="instructions_content">You should pass the ski track without hitting the obsticals.</string>
 </resources>

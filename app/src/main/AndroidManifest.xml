@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".popupSettingsActivity"/>
+        <activity android:name=".popupInfoActivity"/>
     </application>
 
 </manifest>

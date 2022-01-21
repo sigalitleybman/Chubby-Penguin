@@ -8,4 +8,6 @@
     <string name="hebrew_language">עברית</string>
     <string name="english_language">אנגלית</string>
     <string name="volume">שמע:</string>
+    <string name="instructions">הוראות</string>
+    <string name="instructions_content">אתה צריך לחצות את מסלול הסקי בלי להתקל במכשולים.</string>
 </resources>
