@@ -9,7 +9,7 @@ import android.widget.SeekBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class popupSettingsActivity extends AppCompatActivity {
+public class PopupSettingsActivity extends AppCompatActivity {
 
     private SeekBar volumeSeekbar;
     private AudioManager audioManager;

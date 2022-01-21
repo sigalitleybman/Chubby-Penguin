@@ -20,8 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".popupSettingsActivity"/>
-        <activity android:name=".popupInfoActivity"/>
+        <activity android:name=".PopupSettingsActivity"/>
+<!--        <activity android:name=".popupInfoActivity"/>-->
         <activity android:name=".LevelActivity"/>
     </application>
 

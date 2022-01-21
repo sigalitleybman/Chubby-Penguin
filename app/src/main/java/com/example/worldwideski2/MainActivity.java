@@ -3,16 +3,13 @@ package com.example.worldwideski2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.SeekBar;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -20,7 +17,7 @@ public class MainActivity extends AppCompatActivity
     private ImageButton volumeButtonOff;
     private ImageButton settingsButton;
     private ImageButton infoButton;
-    //private Dialog dialogSettings;
+    private Dialog dialogInfo;
     private MediaPlayer musicPlayer;
     private int flowMusic;
 
@@ -39,7 +36,7 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        // dialogSettings = new Dialog(this);
+        dialogInfo = new Dialog(this);
         startMusic();
         //musicPlayer.start();
 
@@ -49,18 +46,18 @@ public class MainActivity extends AppCompatActivity
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, popupSettingsActivity.class);
+                Intent intent = new Intent(MainActivity.this, PopupSettingsActivity.class);
                 startActivity(intent);
             }
         });
 
-        infoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, popupInfoActivity.class);
-                startActivity(intent);
-            }
-        });
+//        infoButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, popupInfoActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     /**
@@ -134,4 +131,10 @@ public class MainActivity extends AppCompatActivity
 //        dialogSettings.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 //        dialogSettings.show();
 //    }
+
+    public void showInfoPopup(View view){
+        dialogInfo.setContentView(R.layout.activity_info);
+        dialogInfo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogInfo.show();
+    }
 }
