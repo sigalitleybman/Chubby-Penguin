@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/map_levels_screen">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        //France
+        <ImageButton
+            android:id="@+id/france_with_lock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/france_with_lock" />
+
+        <ImageButton
+            android:id="@+id/france_without_lock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/france_without_lock"
+            android:visibility="invisible" />
+
+        //Israel
+        <ImageButton
+            android:id="@+id/israel_with_lock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/israel_with_lock"
+            android:layout_below="@id/france_with_lock"/>
+
+        <ImageButton
+            android:id="@+id/israel_without_lock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/france_without_lock"
+            android:background="@null"
+            android:src="@drawable/israel_without_lock"
+            android:visibility="invisible" />
+
+        //Switzerland
+        <ImageButton
+            android:id="@+id/switzerland_with_lock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/switzerland_with_lock"
+            android:layout_below="@id/israel_with_lock"/>
+
+        <ImageButton
+            android:id="@+id/switzerland_without_lock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/israel_without_lock"
+            android:background="@null"
+            android:src="@drawable/switzerland_without_lock"
+            android:visibility="invisible" />
+
+
+    </RelativeLayout>
+
+</ScrollView>

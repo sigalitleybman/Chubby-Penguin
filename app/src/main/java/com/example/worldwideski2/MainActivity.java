@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity
     private Dialog dialogInfo;
     private MediaPlayer musicPlayer;
     private int flowMusic;
+    private Button letsstartButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity
         volumeButtonOff = findViewById(R.id.image_button_volume_off);
         settingsButton = findViewById(R.id.image_button_settings);
         infoButton = findViewById(R.id.image_button_info);
+        letsstartButton = findViewById(R.id.button_lets_start);
         flowMusic = R.raw.audio;
 
         MusicManager.Instance().initializeMusic(this, flowMusic);
@@ -51,13 +54,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-//        infoButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, popupInfoActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        letsstartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LevelActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     /**

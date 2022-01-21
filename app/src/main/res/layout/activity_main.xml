@@ -70,14 +70,15 @@
             android:layout_centerHorizontal="true"/>
 <!--        android:fontFamily="@font/snow_font"-->
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text_view_ski_title"
-                android:text="@string/lets_start_button"
-                android:layout_centerInParent="true"
-               android:layout_marginTop="350dp"
-                android:background="@drawable/btn_start_selector"/>
+        <Button
+            android:id="@+id/button_lets_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text_view_ski_title"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="350dp"
+            android:background="@drawable/btn_start_selector"
+            android:text="@string/lets_start_button" />
     </RelativeLayout>
 </ScrollView>
 
