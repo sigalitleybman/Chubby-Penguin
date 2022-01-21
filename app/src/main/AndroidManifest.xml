@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".popupSettingsActivity"/>
         <activity android:name=".popupInfoActivity"/>
+        <activity android:name=".LevelActivity"/>
     </application>
 
 </manifest>
