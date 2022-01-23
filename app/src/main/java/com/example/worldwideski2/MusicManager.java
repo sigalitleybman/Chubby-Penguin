@@ -4,7 +4,7 @@ import android.content.Context;
 import android.media.MediaPlayer;
 
 /**
- * Singleton ...
+ * Singleton music manager , inorder to save resources
  */
 public final class MusicManager {
 
@@ -34,7 +34,11 @@ public final class MusicManager {
         return instance;
     }
 
-    //initialize the music
+    /**
+     * initialize the music
+     * @param context - context
+     * @param musicID - it's the id of the audio.
+     */
     public void initializeMusic(Context context, int musicID) {
         mediaPlayer = MediaPlayer.create(context, musicID);
         mediaPlayer.setLooping(true);
@@ -43,7 +47,7 @@ public final class MusicManager {
     }
 
     public void play(boolean byUser) {
-        if (byUser) {//check if the music play by user or play because we move to the next page
+        if (byUser) { //check if the music play by user or play because we move to the next page
             mediaPlayer.start();
             isPaused = false;
         }
@@ -53,7 +57,7 @@ public final class MusicManager {
     }
 
     public void pause(boolean byUser) {
-        if (byUser)//check if the music pause by user or pause because we move to the next page
+        if (byUser) //check if the music pause by user or pause because we move to the next page
             isPaused = true;
         this.mediaPlayer.pause();
     }

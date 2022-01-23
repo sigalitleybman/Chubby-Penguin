@@ -1,5 +1,6 @@
 package com.example.worldwideski2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -21,8 +22,8 @@ public class LevelActivity extends AppCompatActivity {
 
         imageButtonFranceLock = findViewById(R.id.france_with_lock);
         imageButtonFranceUnlock = findViewById(R.id.france_without_lock);
-        imageButtonIsraelLock = findViewById(R.id.israel_with_lock);
-        imageButtonIsraelUnlock = findViewById(R.id.israel_without_lock);
+
+        imageButtonIsraelUnlock = findViewById(R.id.israel_map);
         imageButtonSwitzerlandlLock = findViewById(R.id.switzerland_with_lock);
         imageButtonSwitzerlandUnlock = findViewById(R.id.switzerland_without_lock);
 
@@ -44,19 +45,10 @@ public class LevelActivity extends AppCompatActivity {
         });
 
         //Israel
-        imageButtonIsraelLock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imageButtonIsraelLock.setVisibility(View.INVISIBLE);
-                imageButtonIsraelUnlock.setVisibility(View.VISIBLE);
-            }
-        });
-
         imageButtonIsraelUnlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageButtonIsraelUnlock.setVisibility(View.INVISIBLE);
-                imageButtonIsraelLock.setVisibility(View.VISIBLE);
+                startActivity(new Intent(LevelActivity.this, GameActivity.class));
             }
         });
 

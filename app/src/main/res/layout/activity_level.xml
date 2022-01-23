@@ -26,23 +26,7 @@
             android:src="@drawable/france_without_lock"
             android:visibility="invisible" />
 
-        //Israel
-        <ImageButton
-            android:id="@+id/israel_with_lock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:src="@drawable/israel_with_lock"
-            android:layout_below="@id/france_with_lock"/>
 
-        <ImageButton
-            android:id="@+id/israel_without_lock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/france_without_lock"
-            android:background="@null"
-            android:src="@drawable/israel_without_lock"
-            android:visibility="invisible" />
 
         //Switzerland
         <ImageButton
@@ -51,16 +35,25 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:src="@drawable/switzerland_with_lock"
-            android:layout_below="@id/israel_with_lock"/>
+            android:layout_below="@id/france_with_lock"/>
 
         <ImageButton
             android:id="@+id/switzerland_without_lock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/israel_without_lock"
+            android:layout_below="@id/france_without_lock"
             android:background="@null"
             android:src="@drawable/switzerland_without_lock"
             android:visibility="invisible" />
+
+        //Israel
+        <ImageButton
+            android:id="@+id/israel_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/switzerland_with_lock"
+            android:background="@null"
+            android:src="@drawable/israel_without_lock" />
 
 
     </RelativeLayout>

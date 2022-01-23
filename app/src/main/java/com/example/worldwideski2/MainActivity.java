@@ -12,8 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends MusicalBase {
+
     private ImageButton volumeButtonOn;
     private ImageButton volumeButtonOff;
     private ImageButton settingsButton;
@@ -40,7 +40,9 @@ public class MainActivity extends AppCompatActivity
 
 
         dialogInfo = new Dialog(this);
-        startMusic();
+
+        MusicManager.Instance().initializeMusic(this,flowMusic);
+        //startMusic();
         //musicPlayer.start();
 
         changeToVolumeOff();
@@ -125,16 +127,10 @@ public class MainActivity extends AppCompatActivity
         //stopMusic();
     }
 
-//    /**
-//     * This method responsible for showing the dialog settings popup.
-//     * @param view - the MainActivity on which we display the dialog settings popup.
-//     */
-//    public void showSettingsPopup(View view){
-//        dialogSettings.setContentView(R.layout.pop_up_settings);
-//        dialogSettings.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//        dialogSettings.show();
-//    }
-
+     /**
+     * This method responsible for showing the dialog settings popup.
+     * @param view - the MainActivity on which we display the dialog settings popup.
+     */
     public void showInfoPopup(View view){
         dialogInfo.setContentView(R.layout.activity_info);
         dialogInfo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
