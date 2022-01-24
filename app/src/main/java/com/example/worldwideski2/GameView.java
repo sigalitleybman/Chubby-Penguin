@@ -21,12 +21,15 @@ public class GameView extends SurfaceView implements Runnable {
     public GameView(Context context, int screenX, int screenY) {
         super(context);
 
+        //the context is the gameActivity
         this.context = context;
+
+        // screen's size
         this.screenX = screenX;
         this.screenY = screenY;
+
         backgroundGame1 = new BackgroundGame(screenX, screenY, getResources());
         backgroundGame2 = new BackgroundGame(screenX, screenY, getResources());
-
 
         backgroundGame2.setX(screenX);
 
@@ -48,7 +51,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void update() {
 
         backgroundGame1.setX(backgroundGame1.getX() - BACKGROUND_MOVEMENT);
-        backgroundGame2.setX(backgroundGame2.getX() - -BACKGROUND_MOVEMENT);
+        backgroundGame2.setX(backgroundGame2.getX() - BACKGROUND_MOVEMENT);
 
         if ((backgroundGame1.getX() + backgroundGame1.getBackground().getWidth()) < 0) {
             backgroundGame1.setX(screenX);
@@ -60,22 +63,26 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void draw() {
-
         if (getHolder().getSurface().isValid()) {
 
+            //lock the canvas to draw the backgrounds again
             Canvas canvas = getHolder().lockCanvas();
 
-            //background
-            canvas.drawBitmap(backgroundGame1.getBackground(), backgroundGame1.getX(), backgroundGame1.getY(), paint);
-            canvas.drawBitmap(backgroundGame2.getBackground(), backgroundGame2.getX(), backgroundGame2.getY(), paint);
+            //background drawing
+            canvas.drawBitmap(backgroundGame1.getBackground(), backgroundGame1.getX(),
+                    backgroundGame1.getY(), paint);
 
+            canvas.drawBitmap(backgroundGame2.getBackground(), backgroundGame2.getX(),
+                    backgroundGame2.getY(), paint);
+
+            //after drawing unlock the canvas
             getHolder().unlockCanvasAndPost(canvas);
         }
     }
 
     private void sleep() {
         try {
-            Thread.sleep(17);
+            Thread.sleep(15);
         }
         catch (InterruptedException e) {
             e.printStackTrace();

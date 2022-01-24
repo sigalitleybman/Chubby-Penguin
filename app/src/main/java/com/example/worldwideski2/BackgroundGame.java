@@ -11,7 +11,7 @@ public class BackgroundGame {
 
     BackgroundGame (int screenX, int screenY , Resources res){
         //create the background bitmap
-        background = BitmapFactory.decodeResource(res, R.drawable.background_map);
+        background = BitmapFactory.decodeResource(res, R.drawable.snow_map);
         background = Bitmap.createScaledBitmap(background, screenX, screenY, false);
     }
 
@@ -25,10 +25,6 @@ public class BackgroundGame {
 
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public Bitmap getBackground() {

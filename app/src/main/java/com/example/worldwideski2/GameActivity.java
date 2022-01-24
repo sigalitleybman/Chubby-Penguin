@@ -6,8 +6,10 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+
 public class GameActivity extends AppCompatActivity {
 
+    // game view represents the logic of the app
     private GameView gameView;
 
     @Override
@@ -15,15 +17,17 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        setContentView(R.layout.activity_game);
-
         //For full screen
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Point point = new Point();
+
         getWindowManager().getDefaultDisplay().getSize(point);
 
+        /**
+         * point.x and point.y represents the screen size
+         */
         gameView = new GameView(this,point.x, point.y);
 
         setContentView(gameView);
