@@ -1,7 +1,5 @@
 package com.example.worldwideski2;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -21,18 +20,22 @@ public class MainActivity extends MusicalBase {
     private Dialog dialogInfo;
     private MediaPlayer musicPlayer;
     private int flowMusic;
-    private Button letsstartButton;
+    private Button letsStartButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
         volumeButtonOn = findViewById(R.id.image_button_volume_on);
         volumeButtonOff = findViewById(R.id.image_button_volume_off);
         settingsButton = findViewById(R.id.image_button_settings);
         infoButton = findViewById(R.id.image_button_info);
-        letsstartButton = findViewById(R.id.button_lets_start);
+        letsStartButton = findViewById(R.id.button_lets_start);
         flowMusic = R.raw.audio;
 
         MusicManager.Instance().initializeMusic(this, flowMusic);
@@ -56,7 +59,7 @@ public class MainActivity extends MusicalBase {
             }
         });
 
-        letsstartButton.setOnClickListener(new View.OnClickListener() {
+        letsStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, LevelActivity.class);

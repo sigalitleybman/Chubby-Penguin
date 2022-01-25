@@ -1,0 +1,85 @@
+package com.example.worldwideski2;
+
+import static com.example.worldwideski2.GameView.screenRatioX;
+import static com.example.worldwideski2.GameView.screenRatioY;
+import static java.security.AccessController.getContext;
+
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.view.Display;
+import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+
+public class WalkingPenguin {
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    private final Bitmap penguinWalking[] = new Bitmap[4];
+    private int penguinFrame = -1;
+//    private Bitmap penguinTwo;
+//    private Bitmap penguinThree;
+//    private Bitmap penguinFour;
+
+    public WalkingPenguin(int screenY, Resources res) {
+        penguinWalking[0] = BitmapFactory.decodeResource(res, R.drawable.walking_1);
+        penguinWalking[1] = BitmapFactory.decodeResource(res, R.drawable.walking_2);
+        penguinWalking[2] = BitmapFactory.decodeResource(res, R.drawable.walking_3);
+        penguinWalking[3] = BitmapFactory.decodeResource(res, R.drawable.walking_4);
+
+        width = penguinWalking[0].getWidth();
+        height = penguinWalking[0].getHeight();
+
+        width /= 6;
+        height /= 6;
+
+        width = (int) (screenRatioX * width);
+        height = (int) (screenRatioY * height);
+
+        setScaledBitmap();
+
+        y = screenY / 2;
+        x = (int) (64 * screenRatioX);
+    }
+
+    /**
+     * here we scale the walkingPenguin bitmaps to the desired size
+     */
+    private void setScaledBitmap() {
+        for(Bitmap bitmap : penguinWalking){
+            bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        }
+    }
+
+    public Bitmap getWalkingPenguin() {
+        penguinFrame++;
+
+        if (penguinFrame == 4) {
+            penguinFrame = 0;
+        }
+
+        return penguinWalking[penguinFrame];
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+}

@@ -14,6 +14,9 @@ public class GameView extends SurfaceView implements Runnable {
     private boolean isGameOver;
     private int screenX;
     private int  screenY;
+    public static float screenRatioX;
+    public static float screenRatioY;
+    private WalkingPenguin walkingPenguin;
     private Paint paint;
     private BackgroundGame backgroundGame1;
     private BackgroundGame backgroundGame2;
@@ -28,14 +31,18 @@ public class GameView extends SurfaceView implements Runnable {
         this.screenX = screenX;
         this.screenY = screenY;
 
+        screenRatioX = 1920f / screenX;
+        screenRatioY = 1080f / screenY;
+
         backgroundGame1 = new BackgroundGame(screenX, screenY, getResources());
         backgroundGame2 = new BackgroundGame(screenX, screenY, getResources());
 
+        walkingPenguin = new WalkingPenguin(screenY, getResources());
         backgroundGame2.setX(screenX);
 
         paint = new Paint();
-        paint.setTextSize(100);
-        paint.setColor(Color.WHITE);
+//        paint.setTextSize(100);
+//        paint.setColor(Color.WHITE);
 
     }
 
@@ -49,9 +56,10 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void update() {
+        //backgroundGame1.x -= 10 * screenRatioX;
 
-        backgroundGame1.setX(backgroundGame1.getX() - BACKGROUND_MOVEMENT);
-        backgroundGame2.setX(backgroundGame2.getX() - BACKGROUND_MOVEMENT);
+        backgroundGame1.setX((int) (backgroundGame1.getX() - BACKGROUND_MOVEMENT * screenRatioX));
+        backgroundGame2.setX((int) (backgroundGame2.getX() - BACKGROUND_MOVEMENT * screenRatioX));
 
         if ((backgroundGame1.getX() + backgroundGame1.getBackground().getWidth()) < 0) {
             backgroundGame1.setX(screenX);
@@ -60,6 +68,8 @@ public class GameView extends SurfaceView implements Runnable {
             backgroundGame2.setX(screenX);
         }
 
+        //changed from x to y
+        walkingPenguin.setY((int) (screenRatioY * 10));
     }
 
     private void draw() {
@@ -75,6 +85,10 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(backgroundGame2.getBackground(), backgroundGame2.getX(),
                     backgroundGame2.getY(), paint);
 
+            canvas.drawBitmap(walkingPenguin.getWalkingPenguin(),
+                    walkingPenguin.getX(), walkingPenguin.getY(), paint);
+
+
             //after drawing unlock the canvas
             getHolder().unlockCanvasAndPost(canvas);
         }
@@ -82,7 +96,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void sleep() {
         try {
-            Thread.sleep(15);
+            Thread.sleep(35);
         }
         catch (InterruptedException e) {
             e.printStackTrace();
