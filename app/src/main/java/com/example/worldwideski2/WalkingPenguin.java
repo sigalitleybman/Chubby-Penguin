@@ -36,13 +36,18 @@ public class WalkingPenguin {
         width = penguinWalking[0].getWidth();
         height = penguinWalking[0].getHeight();
 
-        width /= 6;
-        height /= 6;
+        width /= 2;
+        height /= 2;
 
         width = (int) (screenRatioX * width);
         height = (int) (screenRatioY * height);
 
-        setScaledBitmap();
+        penguinWalking[0] = Bitmap.createScaledBitmap(penguinWalking[0], width, height, false);
+        penguinWalking[1] = Bitmap.createScaledBitmap(penguinWalking[1], width, height, false);
+        penguinWalking[2] = Bitmap.createScaledBitmap(penguinWalking[2], width, height, false);
+        penguinWalking[3] = Bitmap.createScaledBitmap(penguinWalking[3], width, height, false);
+
+      //  setScaledBitmap();
 
         y = screenY / 2;
         x = (int) (64 * screenRatioX);

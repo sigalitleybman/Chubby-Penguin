@@ -68,8 +68,8 @@ public class GameView extends SurfaceView implements Runnable {
             backgroundGame2.setX(screenX);
         }
 
-        //changed from x to y
-        walkingPenguin.setY((int) (screenRatioY * 10));
+        //TODO: check how to make the penguin seen
+        walkingPenguin.setY((int) (screenRatioY));
     }
 
     private void draw() {
@@ -96,7 +96,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void sleep() {
         try {
-            Thread.sleep(35);
+            Thread.sleep(80);
         }
         catch (InterruptedException e) {
             e.printStackTrace();
