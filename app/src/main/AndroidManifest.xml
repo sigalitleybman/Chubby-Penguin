@@ -12,6 +12,9 @@
 <!--        <activity-->
 <!--            android:name=".GameActivity"-->
 <!--            android:exported="false" />-->
+        <activity android:name=".GameActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
@@ -23,8 +26,7 @@
         </activity>
         <activity android:name=".PopupSettingsActivity" />
         <activity android:name=".LevelActivity" />
-        <activity android:name=".GameActivity"
-            android:screenOrientation="landscape" />
+
     </application>
 
 </manifest>

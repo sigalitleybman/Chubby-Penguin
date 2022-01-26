@@ -38,7 +38,7 @@ public class GameView extends SurfaceView implements Runnable {
         backgroundGame2 = new BackgroundGame(screenX, screenY, getResources());
 
         penguin = new Penguin(screenY, getResources());
-        backgroundGame2.setX(screenX);
+        backgroundGame2.x = screenX;
 
         paint = new Paint();
 //        paint.setTextSize(100);
@@ -56,32 +56,35 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void update() {
-//        backgroundGame1.x -= 10 * screenRatioX;
+        backgroundGame1.x -= 10 * screenRatioX;
+        backgroundGame2.x -= 10 * screenRatioX;
 
-        backgroundGame1.setX((int)(backgroundGame1.getX() - BACKGROUND_MOVEMENT * screenRatioX));
-        backgroundGame2.setX((int)(backgroundGame2.getX() - BACKGROUND_MOVEMENT * screenRatioX));
 
-        if ((backgroundGame1.getX() + backgroundGame1.getBackground().getWidth()) < 0) {
-            backgroundGame1.setX(screenX);
+
+//        backgroundGame1.setX((int)(backgroundGame1.getX() - BACKGROUND_MOVEMENT * screenRatioX));
+//        backgroundGame2.setX((int)(backgroundGame2.getX() - BACKGROUND_MOVEMENT * screenRatioX));
+
+        if (backgroundGame1.x + backgroundGame1.background.getWidth() < 0) {
+            backgroundGame1.x = screenX;
         }
 
-        if ((backgroundGame2.getX() + backgroundGame2.getBackground().getWidth()) < 0) {
-            backgroundGame2.setX(screenX);
+        if (backgroundGame2.x + backgroundGame2.background.getWidth() < 0) {
+            backgroundGame2.x = screenX;
         }
 
-        if (penguin.isGoingUp()) {
-            penguin.setY((int) (penguin.getY() - 30 * screenRatioY));
+        if (penguin.isGoingUp) {
+            penguin.y -= 30 * screenRatioY;
         }
         else {
-            penguin.setY((int) (penguin.getY() + 30 * screenRatioY));
+            penguin.y += 30 * screenRatioY;
         }
 
-        if (penguin.getY() < 0) {
-            penguin.setY(0);
+        if (penguin.y < 0) {
+            penguin.y = 0;
         }
 
-        if (penguin.getY() >= screenY - penguin.getHeight()) {
-            penguin.setY(screenY - penguin.getHeight());
+        if (penguin.y >= screenY - penguin.height) {
+            penguin.y = screenY - penguin.height;
         }
 
 
@@ -97,14 +100,14 @@ public class GameView extends SurfaceView implements Runnable {
             Canvas canvas = getHolder().lockCanvas();
 
             //background drawing
-            canvas.drawBitmap(backgroundGame1.getBackground(), backgroundGame1.getX(),
-                    backgroundGame1.getY(), paint);
+            canvas.drawBitmap(backgroundGame1.background, backgroundGame1.x,
+                    backgroundGame1.y, paint);
 
-            canvas.drawBitmap(backgroundGame2.getBackground(), backgroundGame2.getX(),
-                    backgroundGame2.getY(), paint);
+            canvas.drawBitmap(backgroundGame2.background, backgroundGame2.x,
+                    backgroundGame2.y, paint);
 
             canvas.drawBitmap(penguin.getWalkingPenguin(),
-                    penguin.getX(), penguin.getY(), paint);
+                    penguin.x, penguin.y, paint);
 
 
             //after drawing unlock the canvas
@@ -114,7 +117,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void sleep() {
         try {
-            Thread.sleep(60);
+            Thread.sleep(25);
         }
         catch (InterruptedException e) {
             e.printStackTrace();
@@ -145,7 +148,7 @@ public class GameView extends SurfaceView implements Runnable {
             //the y change according to the finger movement
             case MotionEvent.ACTION_DOWN:
                 if (event.getX() < screenX / 2) {
-                    penguin.setGoingUp(true);
+                    penguin.isGoingUp = true;
                 }
                 break;
             case MotionEvent.ACTION_UP:
