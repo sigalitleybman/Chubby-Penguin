@@ -2,21 +2,21 @@ package com.example.worldwideski2;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements Runnable {
     public static final int BACKGROUND_MOVEMENT = 10;
     private Context context;
     private Thread thread;
-    private boolean isPlaying;
-    private boolean isGameOver;
-    private int screenX;
-    private int  screenY;
+    private boolean isPlaying = false;
+    private boolean isGameOver = false;
+    private int screenX = 0;
+    private int  screenY = 0;
     public static float screenRatioX;
     public static float screenRatioY;
-    private WalkingPenguin walkingPenguin;
+    private Penguin penguin;
     private Paint paint;
     private BackgroundGame backgroundGame1;
     private BackgroundGame backgroundGame2;
@@ -37,7 +37,7 @@ public class GameView extends SurfaceView implements Runnable {
         backgroundGame1 = new BackgroundGame(screenX, screenY, getResources());
         backgroundGame2 = new BackgroundGame(screenX, screenY, getResources());
 
-        walkingPenguin = new WalkingPenguin(screenY, getResources());
+        penguin = new Penguin(screenY, getResources());
         backgroundGame2.setX(screenX);
 
         paint = new Paint();
@@ -56,20 +56,38 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void update() {
-        //backgroundGame1.x -= 10 * screenRatioX;
+//        backgroundGame1.x -= 10 * screenRatioX;
 
-        backgroundGame1.setX((int) (backgroundGame1.getX() - BACKGROUND_MOVEMENT * screenRatioX));
-        backgroundGame2.setX((int) (backgroundGame2.getX() - BACKGROUND_MOVEMENT * screenRatioX));
+        backgroundGame1.setX((int)(backgroundGame1.getX() - BACKGROUND_MOVEMENT * screenRatioX));
+        backgroundGame2.setX((int)(backgroundGame2.getX() - BACKGROUND_MOVEMENT * screenRatioX));
 
         if ((backgroundGame1.getX() + backgroundGame1.getBackground().getWidth()) < 0) {
             backgroundGame1.setX(screenX);
         }
+
         if ((backgroundGame2.getX() + backgroundGame2.getBackground().getWidth()) < 0) {
             backgroundGame2.setX(screenX);
         }
 
+        if (penguin.isGoingUp()) {
+            penguin.setY((int) (penguin.getY() - 30 * screenRatioY));
+        }
+        else {
+            penguin.setY((int) (penguin.getY() + 30 * screenRatioY));
+        }
+
+        if (penguin.getY() < 0) {
+            penguin.setY(0);
+        }
+
+        if (penguin.getY() >= screenY - penguin.getHeight()) {
+            penguin.setY(screenY - penguin.getHeight());
+        }
+
+
         //TODO: check how to make the penguin seen
-        walkingPenguin.setY((int) (screenRatioY));
+//        penguin.setY((int) (backgroundGame1.getY() + 80));
+//        penguin.setY((int)(screenY - penguin.getHeight()/1.5));
     }
 
     private void draw() {
@@ -85,8 +103,8 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(backgroundGame2.getBackground(), backgroundGame2.getX(),
                     backgroundGame2.getY(), paint);
 
-            canvas.drawBitmap(walkingPenguin.getWalkingPenguin(),
-                    walkingPenguin.getX(), walkingPenguin.getY(), paint);
+            canvas.drawBitmap(penguin.getWalkingPenguin(),
+                    penguin.getX(), penguin.getY(), paint);
 
 
             //after drawing unlock the canvas
@@ -96,7 +114,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void sleep() {
         try {
-            Thread.sleep(80);
+            Thread.sleep(60);
         }
         catch (InterruptedException e) {
             e.printStackTrace();
@@ -119,27 +137,22 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        float yDown = 0, yMove;
-//        float distanceY;
-//        switch (event.getAction()) {
-//            // When the user puts his finger down the screen
-//            //the fish x stay the same
-//            //the y change according to the finger movement
-//            case MotionEvent.ACTION_DOWN:
-//                yDown = event.getY();
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                yMove = event.getY();
-//                distanceY = yMove - yDown;
-//
-//                fish.y = (int) distanceY;
-//
-//                if (fish.y >= screenY - fish.height)
-//                    fish.y = screenY - fish.height;
-//                break;
-//        }
-//        return true;
-//    }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            // When the user puts his finger down the screen
+            //the penguin x stay the same
+            //the y change according to the finger movement
+            case MotionEvent.ACTION_DOWN:
+                if (event.getX() < screenX / 2) {
+                    penguin.setGoingUp(true);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                penguin.setGoingUp(false);
+                break;
+        }
+
+        return true;
+    }
 }

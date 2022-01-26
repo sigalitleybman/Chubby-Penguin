@@ -16,7 +16,8 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-public class WalkingPenguin {
+public class Penguin {
+    private boolean isGoingUp;
     private int x;
     private int y;
     private int width;
@@ -27,7 +28,7 @@ public class WalkingPenguin {
 //    private Bitmap penguinThree;
 //    private Bitmap penguinFour;
 
-    public WalkingPenguin(int screenY, Resources res) {
+    public Penguin(int screenY, Resources res) {
         penguinWalking[0] = BitmapFactory.decodeResource(res, R.drawable.walking_1);
         penguinWalking[1] = BitmapFactory.decodeResource(res, R.drawable.walking_2);
         penguinWalking[2] = BitmapFactory.decodeResource(res, R.drawable.walking_3);
@@ -49,7 +50,7 @@ public class WalkingPenguin {
 
       //  setScaledBitmap();
 
-        y = screenY / 2;
+        y = screenY;
         x = (int) (64 * screenRatioX);
     }
 
@@ -60,6 +61,14 @@ public class WalkingPenguin {
         for(Bitmap bitmap : penguinWalking){
             bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
         }
+    }
+
+    public boolean isGoingUp() {
+        return isGoingUp;
+    }
+
+    public void setGoingUp(boolean goingUp) {
+        isGoingUp = goingUp;
     }
 
     public Bitmap getWalkingPenguin() {
@@ -86,5 +95,13 @@ public class WalkingPenguin {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }
