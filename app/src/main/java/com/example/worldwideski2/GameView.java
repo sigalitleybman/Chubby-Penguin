@@ -56,8 +56,8 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void update() {
-        backgroundGame1.x -= 10 * screenRatioX;
-        backgroundGame2.x -= 10 * screenRatioX;
+        backgroundGame1.x -= 15 * screenRatioX;
+        backgroundGame2.x -= 15 * screenRatioX;
 
 
 

@@ -37,8 +37,8 @@ public class Penguin {
         width = penguinWalking[0].getWidth();
         height = penguinWalking[0].getHeight();
 
-        width /= 2;
-        height /= 2;
+        width /= 1.7;
+        height /= 1.7;
 
         width = (int) (screenRatioX * width);
         height = (int) (screenRatioY * height);
@@ -81,27 +81,8 @@ public class Penguin {
         return penguinWalking[penguinFrame];
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public int getWidth() {
         return width;
     }
 
-    public int getHeight() {
-        return height;
-    }
 }
