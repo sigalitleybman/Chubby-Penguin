@@ -105,15 +105,17 @@ public class GameView extends SurfaceView implements Runnable {
             shark.x-=shark.speed;
             if(shark.x+shark.width<0){
                 int bound = (int) (30*screenRatioX);
-                shark.speed=random.nextInt(bound);
-                if(shark.speed<10*screenRatioX){
-                    shark.speed= (int) (10*screenRatioX);
-                }
+//                shark.speed=random.nextInt(bound);
+//                if(shark.speed<10*screenRatioX){
+//                    shark.speed= (int) (20*screenRatioX);
+//                }
+                shark.speed=(int)(15*screenRatioX);
                 shark.x=screenX;
                 shark.y=random.nextInt(screenY-shark.height);
             }
             if(Rect.intersects(shark.getCollisionShape(),penguin.getCollisionShape())){
                 shark.x=-800;
+                isGameOver=true;
             }
         }
 
