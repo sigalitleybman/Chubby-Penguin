@@ -3,8 +3,11 @@ package com.example.worldwideski2;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
+
+import java.util.Random;
 
 public class GameView extends SurfaceView implements Runnable {
     public static final int BACKGROUND_MOVEMENT = 10;
@@ -20,6 +23,8 @@ public class GameView extends SurfaceView implements Runnable {
     private Paint paint;
     private BackgroundGame backgroundGame1;
     private BackgroundGame backgroundGame2;
+    private Shark[] sharks;
+    private Random random;
 
     public GameView(Context context, int screenX, int screenY) {
         super(context);
@@ -43,6 +48,15 @@ public class GameView extends SurfaceView implements Runnable {
         paint = new Paint();
 //        paint.setTextSize(100);
 //        paint.setColor(Color.WHITE);
+
+        sharks=new Shark[2];
+        for(int i=0;i<2;i++){
+            Shark shark=new Shark(getResources());
+            sharks[i]=shark;
+        }
+
+        random=new Random();
+
 
     }
 
@@ -87,6 +101,22 @@ public class GameView extends SurfaceView implements Runnable {
             penguin.y = screenY - penguin.height;
         }
 
+        for (Shark shark:sharks){
+            shark.x-=shark.speed;
+            if(shark.x+shark.width<0){
+                int bound = (int) (30*screenRatioX);
+                shark.speed=random.nextInt(bound);
+                if(shark.speed<10*screenRatioX){
+                    shark.speed= (int) (10*screenRatioX);
+                }
+                shark.x=screenX;
+                shark.y=random.nextInt(screenY-shark.height);
+            }
+            if(Rect.intersects(shark.getCollisionShape(),penguin.getCollisionShape())){
+                shark.x=-800;
+            }
+        }
+
 
         //TODO: check how to make the penguin seen
 //        penguin.setY((int) (backgroundGame1.getY() + 80));
@@ -106,8 +136,19 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(backgroundGame2.background, backgroundGame2.x,
                     backgroundGame2.y, paint);
 
+            if(isGameOver){
+                isPlaying=false;
+                canvas.drawBitmap(penguin.getDeadPenguin(),penguin.x,penguin.y,paint);
+                getHolder().unlockCanvasAndPost(canvas);
+                return;
+            }
+            for(Shark shark :sharks){
+                canvas.drawBitmap(shark.getSharkBitmap(),shark.x,shark.y,paint);
+            }
+
             canvas.drawBitmap(penguin.getWalkingPenguin(),
                     penguin.x, penguin.y, paint);
+
 
 
             //after drawing unlock the canvas
