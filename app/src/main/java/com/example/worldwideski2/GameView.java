@@ -1,6 +1,7 @@
 package com.example.worldwideski2;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -15,6 +16,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Thread thread;
     private boolean isPlaying = false;
     private boolean isGameOver = false;
+    private boolean hasCollided = false;
     private int screenX = 0;
     private int  screenY = 0;
     public static float screenRatioX;
@@ -25,6 +27,8 @@ public class GameView extends SurfaceView implements Runnable {
     private BackgroundGame backgroundGame2;
     private Shark[] sharks;
     private Random random;
+    private int lifeCounter = 3;
+    private Heart hearts;
 
     public GameView(Context context, int screenX, int screenY) {
         super(context);
@@ -45,6 +49,7 @@ public class GameView extends SurfaceView implements Runnable {
         penguin = new Penguin(screenY, getResources());
         backgroundGame2.x = screenX;
 
+        hearts = new Heart(getResources());
         paint = new Paint();
 //        paint.setTextSize(100);
 //        paint.setColor(Color.WHITE);
@@ -56,8 +61,6 @@ public class GameView extends SurfaceView implements Runnable {
         }
 
         random=new Random();
-
-
     }
 
     @Override
@@ -72,11 +75,6 @@ public class GameView extends SurfaceView implements Runnable {
     private void update() {
         backgroundGame1.x -= 15 * screenRatioX;
         backgroundGame2.x -= 15 * screenRatioX;
-
-
-
-//        backgroundGame1.setX((int)(backgroundGame1.getX() - BACKGROUND_MOVEMENT * screenRatioX));
-//        backgroundGame2.setX((int)(backgroundGame2.getX() - BACKGROUND_MOVEMENT * screenRatioX));
 
         if (backgroundGame1.x + backgroundGame1.background.getWidth() < 0) {
             backgroundGame1.x = screenX;
@@ -93,8 +91,8 @@ public class GameView extends SurfaceView implements Runnable {
             penguin.y += 30 * screenRatioY;
         }
 
-        if (penguin.y < 0) {
-            penguin.y = 0;
+        if (penguin.y < penguin.height / 2) {
+            penguin.y = penguin.height;
         }
 
         if (penguin.y >= screenY - penguin.height) {
@@ -113,9 +111,18 @@ public class GameView extends SurfaceView implements Runnable {
                 shark.x=screenX;
                 shark.y=random.nextInt(screenY-shark.height);
             }
+
             if(Rect.intersects(shark.getCollisionShape(),penguin.getCollisionShape())){
                 shark.x=-800;
-                isGameOver=true;
+                hasCollided = true;
+                lifeCounter--;
+
+
+
+                if (lifeCounter == 0) {
+                    //Toast.makeText(getContext(), "GameOver", Toast.LENGTH_SHORT).show();
+                    isGameOver=true;
+                }
             }
         }
 
@@ -138,15 +145,48 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(backgroundGame2.background, backgroundGame2.x,
                     backgroundGame2.y, paint);
 
-            if(isGameOver){
-                isPlaying=false;
-                canvas.drawBitmap(penguin.getDeadPenguin(),penguin.x,penguin.y,paint);
-                getHolder().unlockCanvasAndPost(canvas);
-                return;
+
+            if (hasCollided) {
+                canvas.drawBitmap(penguin.getCollisionBitMap(),penguin.x,penguin.y,paint);
+                hasCollided = false;
             }
-            for(Shark shark :sharks){
+
+
+            for(Shark shark : sharks){
                 canvas.drawBitmap(shark.getSharkBitmap(),shark.x,shark.y,paint);
             }
+
+            for (int i = 0; i < 3; i++) {
+                int x = (int) (350 + hearts.heartImages[0].getWidth() * 1.1 * i);
+                int y = 50;
+
+                if (i < lifeCounter) {
+                    canvas.drawBitmap(hearts.heartImages[0], x, y, null);
+                }
+                else {
+                    canvas.drawBitmap(hearts.heartImages[1], x, y, null);
+                }
+            }
+
+            if(isGameOver){
+                isPlaying = false;
+                for (int i = 0; i < 3; i++) {
+                    try{
+                        canvas.drawBitmap(penguin.getPenguinDied(),penguin.x,penguin.y,paint);
+                        Thread.sleep(10);
+                    }
+                    catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                getHolder().unlockCanvasAndPost(canvas);
+                penguin.resetCounter();
+                return;
+            }
+
+
+
 
             canvas.drawBitmap(penguin.getWalkingPenguin(),
                     penguin.x, penguin.y, paint);
