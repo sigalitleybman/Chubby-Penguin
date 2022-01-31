@@ -12,14 +12,15 @@ public class Shark {
     public int speed=20;
     int x,y,width,height;
     Bitmap sharkBitmap;
+
     Shark(Resources res){
         sharkBitmap = BitmapFactory.decodeResource(res,R.drawable.shark);
 
         width = sharkBitmap.getWidth();
         height = sharkBitmap.getHeight();
 
-        width/=3;
-        height/=3;
+        width/=4;
+        height/=4;
 
         width = (int) (screenRatioX * width);
         height = (int) (screenRatioY * height);
@@ -36,7 +37,4 @@ public class Shark {
     Rect getCollisionShape(){
         return new Rect(x,y,x+width,y+height);
     }
-
-
-
 }

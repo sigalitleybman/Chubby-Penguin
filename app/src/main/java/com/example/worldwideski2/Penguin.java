@@ -17,7 +17,9 @@ public class Penguin {
     int width;
     int height;
     final Bitmap penguinWalking[] = new Bitmap[4];
-    final Bitmap penguinDied[] = new Bitmap[3];
+//    final Bitmap penguinDied[] = new Bitmap[3];
+    Bitmap penguinCollided;
+    Bitmap penguinDied;
     int penguinWalkingCounter = -1;
     int penguinDeadCounter = -1;
 
@@ -43,14 +45,19 @@ public class Penguin {
         penguinWalking[3] = Bitmap.createScaledBitmap(penguinWalking[3], width, height, false);
 
         //  setScaledBitmap();
-        penguinDied[0] = BitmapFactory.decodeResource(res, R.drawable.penguin_collision);
-        penguinDied[1] = BitmapFactory.decodeResource(res, R.drawable.penguin_died_1);
-        penguinDied[2] = BitmapFactory.decodeResource(res, R.drawable.penguin_died_2);
+//        penguinDied[0] = BitmapFactory.decodeResource(res, R.drawable.penguin_collision);
+//        penguinDied[1] = BitmapFactory.decodeResource(res, R.drawable.penguin_died_1);
+//        penguinDied[2] = BitmapFactory.decodeResource(res, R.drawable.penguin_died_2);
+//
+//        penguinDied[0] =Bitmap.createScaledBitmap(penguinDied[0], width, height, false);
+//        penguinDied[1] =Bitmap.createScaledBitmap(penguinDied[1], width, height, false);
+//        penguinDied[2] =Bitmap.createScaledBitmap(penguinDied[2], width, height, false);
 
-        penguinDied[0] =Bitmap.createScaledBitmap(penguinDied[0], width, height, false);
-        penguinDied[1] =Bitmap.createScaledBitmap(penguinDied[1], width, height, false);
-        penguinDied[2] =Bitmap.createScaledBitmap(penguinDied[2], width, height, false);
+        penguinCollided = BitmapFactory.decodeResource(res, R.drawable.penguin_collision);
+        penguinCollided = Bitmap.createScaledBitmap(penguinCollided, width, height, false);
 
+        penguinDied = BitmapFactory.decodeResource(res, R.drawable.penguin_died_2);
+        penguinDied = Bitmap.createScaledBitmap(penguinDied, width, height, false);
 
         y = screenY / 2;
         x = (int) (64 * screenRatioX);
@@ -93,18 +100,12 @@ public class Penguin {
         return penguinWalking[penguinWalkingCounter];
     }
 
-    Bitmap getPenguinDied() {
-        penguinDeadCounter++;
-
-//        if (penguinDeadCounter == 3) {
-//            penguinDeadCounter = 0;
-//        }
-
-        return penguinDied[penguinDeadCounter];
+    Bitmap getPenguinCollidedBitmap() {
+        return penguinCollided;
     }
 
-    Bitmap getCollisionBitMap() {
-        return penguinDied[0];
+    Bitmap getPenguinDiedBitMap() {
+        return penguinDied;
     }
 
     public void resetCounter() {

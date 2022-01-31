@@ -1,12 +1,14 @@
 package com.example.worldwideski2;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.Random;
 
@@ -25,10 +27,13 @@ public class GameView extends SurfaceView implements Runnable {
     private Paint paint;
     private BackgroundGame backgroundGame1;
     private BackgroundGame backgroundGame2;
-    private Shark[] sharks;
+   // private Shark[] sharks;
+    private Shark shark;
     private Random random;
     private int lifeCounter = 3;
     private Heart hearts;
+    private int score = 0;
+    private Falafel falafel;
 
     public GameView(Context context, int screenX, int screenY) {
         super(context);
@@ -50,17 +55,22 @@ public class GameView extends SurfaceView implements Runnable {
         backgroundGame2.x = screenX;
 
         hearts = new Heart(getResources());
-        paint = new Paint();
-//        paint.setTextSize(100);
-//        paint.setColor(Color.WHITE);
+        falafel = new Falafel(getResources());
 
-        sharks=new Shark[2];
-        for(int i=0;i<2;i++){
-            Shark shark=new Shark(getResources());
-            sharks[i]=shark;
-        }
+        paint = new Paint();
+        paint.setTextSize(100);
+        paint.setColor(Color.WHITE);
+
+//        sharks = new Shark[2];
+//        for(int i=0 ; i<2 ; i++){
+//            Shark shark=new Shark(getResources());
+//            sharks[i]=shark;
+//        }
+
+        shark = new Shark(getResources());
 
         random=new Random();
+//        points = new TextView();
     }
 
     @Override
@@ -99,9 +109,9 @@ public class GameView extends SurfaceView implements Runnable {
             penguin.y = screenY - penguin.height;
         }
 
-        for (Shark shark:sharks){
-            shark.x-=shark.speed;
-            if(shark.x+shark.width<0){
+//        for (Shark shark:sharks){
+            shark.x -= shark.speed;
+            if(shark.x + shark.width < 0){
                 int bound = (int) (30*screenRatioX);
 //                shark.speed=random.nextInt(bound);
 //                if(shark.speed<10*screenRatioX){
@@ -109,21 +119,26 @@ public class GameView extends SurfaceView implements Runnable {
 //                }
                 shark.speed=(int)(15*screenRatioX);
                 shark.x=screenX;
-                shark.y=random.nextInt(screenY-shark.height);
-            }
+                try {
+                    shark.y=random.nextInt(screenY-shark.height);
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//            }
 
             if(Rect.intersects(shark.getCollisionShape(),penguin.getCollisionShape())){
                 shark.x=-800;
                 hasCollided = true;
                 lifeCounter--;
 
-
-
                 if (lifeCounter == 0) {
                     //Toast.makeText(getContext(), "GameOver", Toast.LENGTH_SHORT).show();
                     isGameOver=true;
                 }
             }
+
+
         }
 
 
@@ -146,8 +161,17 @@ public class GameView extends SurfaceView implements Runnable {
                     backgroundGame2.y, paint);
 
 
+            if(isGameOver){
+                isPlaying = false;
+                canvas.drawBitmap(penguin.getPenguinDiedBitMap(),penguin.x,penguin.y,paint);
+                getHolder().unlockCanvasAndPost(canvas);
+                penguin.resetCounter();
+                return;
+            }
+
             if (hasCollided) {
-                canvas.drawBitmap(penguin.getCollisionBitMap(),penguin.x,penguin.y,paint);
+//                penguin.getWalkingPenguin().eraseColor(android.graphics.Color.TRANSPARENT);
+//                canvas.drawBitmap(penguin.getPenguinCollidedBitmap(),penguin.x,penguin.y,paint);
                 hasCollided = false;
             }
 
@@ -157,8 +181,8 @@ public class GameView extends SurfaceView implements Runnable {
             }
 
             for (int i = 0; i < 3; i++) {
-                int x = (int) (350 + hearts.heartImages[0].getWidth() * 1.1 * i);
-                int y = 50;
+                int x = (int) (1800 + hearts.heartImages[0].getWidth() * 1.1 * i);
+                int y = 80;
 
                 if (i < lifeCounter) {
                     canvas.drawBitmap(hearts.heartImages[0], x, y, null);
@@ -168,30 +192,10 @@ public class GameView extends SurfaceView implements Runnable {
                 }
             }
 
-            if(isGameOver){
-                isPlaying = false;
-                for (int i = 0; i < 3; i++) {
-                    try{
-                        canvas.drawBitmap(penguin.getPenguinDied(),penguin.x,penguin.y,paint);
-                        Thread.sleep(10);
-                    }
-                    catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                getHolder().unlockCanvasAndPost(canvas);
-                penguin.resetCounter();
-                return;
-            }
-
-
 
 
             canvas.drawBitmap(penguin.getWalkingPenguin(),
                     penguin.x, penguin.y, paint);
-
-
 
             //after drawing unlock the canvas
             getHolder().unlockCanvasAndPost(canvas);
