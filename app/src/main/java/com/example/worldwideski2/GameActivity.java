@@ -2,6 +2,7 @@ package com.example.worldwideski2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -11,13 +12,20 @@ public class GameActivity extends AppCompatActivity {
 
     // game view represents the logic of the app
     private GameView gameView;
+    private Level level;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //For full screen
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION,
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
+        Intent intent = getIntent();
+
+        level = intent.getParcelableExtra("level");
 
 
         Point point = new Point();
@@ -27,7 +35,7 @@ public class GameActivity extends AppCompatActivity {
         /**
          * point.x and point.y represents the screen size
          */
-        gameView = new GameView(this,point.x, point.y);
+        gameView = new GameView(this,point.x, point.y, level);
 
         setContentView(gameView);
     }

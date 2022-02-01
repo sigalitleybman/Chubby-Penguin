@@ -13,7 +13,7 @@ public class Shark {
     int x,y,width,height;
     Bitmap sharkBitmap;
 
-    Shark(Resources res){
+    Shark(Resources res) {
         sharkBitmap = BitmapFactory.decodeResource(res,R.drawable.shark);
 
         width = sharkBitmap.getWidth();
@@ -26,7 +26,8 @@ public class Shark {
         height = (int) (screenRatioY * height);
 
         sharkBitmap = Bitmap.createScaledBitmap(sharkBitmap,width,height,false);
-        y=-height;
+
+        y = -height;
 
     }
 
@@ -35,6 +36,7 @@ public class Shark {
     }
 
     Rect getCollisionShape(){
-        return new Rect(x,y,x+width,y+height);
+        return new Rect(x, y, x+width,y+height);
     }
+
 }

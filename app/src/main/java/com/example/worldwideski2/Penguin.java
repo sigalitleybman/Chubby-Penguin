@@ -56,6 +56,7 @@ public class Penguin {
         penguinCollided = BitmapFactory.decodeResource(res, R.drawable.penguin_collision);
         penguinCollided = Bitmap.createScaledBitmap(penguinCollided, width, height, false);
 
+
         penguinDied = BitmapFactory.decodeResource(res, R.drawable.penguin_died_2);
         penguinDied = Bitmap.createScaledBitmap(penguinDied, width, height, false);
 

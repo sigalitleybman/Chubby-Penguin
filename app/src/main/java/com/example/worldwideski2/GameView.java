@@ -9,7 +9,10 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class GameView extends SurfaceView implements Runnable {
@@ -20,22 +23,31 @@ public class GameView extends SurfaceView implements Runnable {
     private boolean isGameOver = false;
     private boolean hasCollided = false;
     private int screenX = 0;
-    private int  screenY = 0;
+    private int screenY = 0;
     public static float screenRatioX;
     public static float screenRatioY;
     private Penguin penguin;
     private Paint paint;
+
     private BackgroundGame backgroundGame1;
     private BackgroundGame backgroundGame2;
-   // private Shark[] sharks;
-    private Shark shark;
+
+    private final List<Shark> sharks = new ArrayList<>();
+    private final List<Food> listOfFoods = new ArrayList<>();
+
     private Random random;
+
+    //hearts
     private int lifeCounter = 3;
     private Heart hearts;
-    private int score = 0;
-    private Falafel falafel;
 
-    public GameView(Context context, int screenX, int screenY) {
+    //level
+    private Level level;
+    private int foodScore;
+    private int neededScore;
+    private int currentScore;
+
+    public GameView(Context context, int screenX, int screenY, Level level) {
         super(context);
 
         //the context is the gameActivity
@@ -48,29 +60,51 @@ public class GameView extends SurfaceView implements Runnable {
         screenRatioX = 1920f / screenX;
         screenRatioY = 1080f / screenY;
 
+
+//        currentScore + "/" + needScore
+//        100 /1000
         backgroundGame1 = new BackgroundGame(screenX, screenY, getResources());
         backgroundGame2 = new BackgroundGame(screenX, screenY, getResources());
 
         penguin = new Penguin(screenY, getResources());
+        this.level = level;
+
         backgroundGame2.x = screenX;
 
         hearts = new Heart(getResources());
-        falafel = new Falafel(getResources());
+        neededScore = level.getNeededScore();
 
         paint = new Paint();
         paint.setTextSize(100);
         paint.setColor(Color.WHITE);
 
-//        sharks = new Shark[2];
-//        for(int i=0 ; i<2 ; i++){
-//            Shark shark=new Shark(getResources());
-//            sharks[i]=shark;
-//        }
 
-        shark = new Shark(getResources());
+        initLevel();
 
-        random=new Random();
-//        points = new TextView();
+        initListOfFoods();
+
+        initListOfSharks();
+
+        random = new Random();
+        //points = new TextView();
+    }
+
+    private void initListOfSharks() {
+        for (int i = 0; i < level.getObstacleAmount(); i++) {
+            sharks.add(new Shark(getResources()));
+        }
+    }
+
+    private void initListOfFoods() {
+        for (int i = 0; i < level.getFoodAmount(); i++) {
+            listOfFoods.add(new Food(getResources(), level.getFoodPicID()));
+        }
+    }
+
+    private void initLevel() {
+        foodScore = level.getScorePerFood();
+        neededScore = level.getNeededScore();
+        currentScore = 0;
     }
 
     @Override
@@ -109,140 +143,193 @@ public class GameView extends SurfaceView implements Runnable {
             penguin.y = screenY - penguin.height;
         }
 
-//        for (Shark shark:sharks){
+        for (Shark shark : sharks) {
             shark.x -= shark.speed;
-            if(shark.x + shark.width < 0){
-                int bound = (int) (30*screenRatioX);
-//                shark.speed=random.nextInt(bound);
-//                if(shark.speed<10*screenRatioX){
-//                    shark.speed= (int) (20*screenRatioX);
-//                }
-                shark.speed=(int)(15*screenRatioX);
-                shark.x=screenX;
+            if (shark.x + shark.width < 0) {
+               // int bound = (int) (30 * screenRatioX);
+                //                shark.speed=random.nextInt(bound);
+                //                if(shark.speed<10*screenRatioX){
+                //                    shark.speed= (int) (20*screenRatioX);
+                //                }
+                shark.speed = (int) (15 * screenRatioX);
+
+                //locating the shark on the x axis.
+                shark.x = screenX;
+
+                // locating the shark on the y Axis randomly.
                 try {
-                    shark.y=random.nextInt(screenY-shark.height);
+                    shark.y = random.nextInt(screenY - shark.height);
                     Thread.sleep(10);
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-//            }
+            }
 
-            if(Rect.intersects(shark.getCollisionShape(),penguin.getCollisionShape())){
-                shark.x=-800;
-                hasCollided = true;
+            if (Rect.intersects(shark.getCollisionShape(), penguin.getCollisionShape())) {
+                shark.x = -800;
+               // hasCollided = true;
                 lifeCounter--;
 
                 if (lifeCounter == 0) {
                     //Toast.makeText(getContext(), "GameOver", Toast.LENGTH_SHORT).show();
-                    isGameOver=true;
+                    isGameOver = true;
+                }
+            }
+        }
+
+        random = new Random();
+        //traversing through food pictures
+        for (Food food : listOfFoods) {
+            food.x -= food.speed;
+            if (food.x + food.width < 0) {
+                // int bound = (int) (30 * screenRatioX);
+                //                shark.speed=random.nextInt(bound);
+                //                if(shark.speed<10*screenRatioX){
+                //                    shark.speed= (int) (20*screenRatioX);
+                //                }
+                food.speed = (int) (15 * screenRatioX);
+
+                //locating the shark on the x axis.
+                food.x = screenX;
+
+                // locating the shark on the y Axis randomly.
+                try {
+                    food.y = random.nextInt(screenY - food.height);
+                    Thread.sleep(10);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
 
+            if (Rect.intersects(food.getCollisionShape(), penguin.getCollisionShape())) {
+                food.x = -800;
+                currentScore += foodScore;
+                // hasCollided = true;
 
+                if (currentScore == neededScore) {
+                    Toast.makeText(getContext(), "Whoho", Toast.LENGTH_SHORT).show();
+                    isGameOver = true;
+                }
+            }
         }
-
-
-        //TODO: check how to make the penguin seen
-//        penguin.setY((int) (backgroundGame1.getY() + 80));
-//        penguin.setY((int)(screenY - penguin.getHeight()/1.5));
     }
 
-    private void draw() {
-        if (getHolder().getSurface().isValid()) {
+        private void draw () {
+            if (getHolder().getSurface().isValid()) {
 
-            //lock the canvas to draw the backgrounds again
-            Canvas canvas = getHolder().lockCanvas();
+                //lock the canvas to draw the backgrounds again
+                Canvas canvas = getHolder().lockCanvas();
 
-            //background drawing
-            canvas.drawBitmap(backgroundGame1.background, backgroundGame1.x,
-                    backgroundGame1.y, paint);
+                //background drawing
+                canvas.drawBitmap(backgroundGame1.background, backgroundGame1.x, backgroundGame1.y, paint);
+                canvas.drawBitmap(backgroundGame2.background, backgroundGame2.x, backgroundGame2.y, paint);
 
-            canvas.drawBitmap(backgroundGame2.background, backgroundGame2.x,
-                    backgroundGame2.y, paint);
+                /**
+                 * drawing the obstacles.
+                 */
+                for (Shark shark : sharks) {
+                    canvas.drawBitmap(shark.getSharkBitmap(), shark.x, shark.y, paint);
+                }
+
+                /**
+                 * drawing the foodies.
+                 */
+                for (Food food : listOfFoods) {
+                    canvas.drawBitmap(food.getFoodBitmap(), food.x, food.y, paint);
+                }
+
+                canvas.drawText(currentScore + "/" + neededScore, screenX / 2.5f, 164, paint);
+
+                if (isGameOver) {
+                    isPlaying = false;
+                    canvas.drawBitmap(penguin.getPenguinDiedBitMap(), penguin.x, penguin.y, paint);
+                    getHolder().unlockCanvasAndPost(canvas);
+                    penguin.resetCounter();
+                    return;
+                }
+
+                //TODO: resolve the has collided problem.
+//                if (hasCollided) {
+//                    //                penguin.getWalkingPenguin().eraseColor(android.graphics.Color.TRANSPARENT);
+//
+//                    try {
+//                        canvas.drawBitmap(penguin.getPenguinCollidedBitmap(),penguin.x,penguin.y,paint);
+//                        hasCollided = false;
+//                        Thread.sleep(100);
+//
+//                    }
+//                    catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                }
+
+                /**
+                 * drawing the current amount of red and white lives.
+                 */
+                for (int i = 0; i < 3; i++) {
+                    int x = (int) (1800 + hearts.heartImages[0].getWidth() * 1.1 * i);
+                    int y = 80;
+
+                    if (i < lifeCounter) {
+                        canvas.drawBitmap(hearts.heartImages[0], x, y, null);
+                    }
+                    else {
+                        canvas.drawBitmap(hearts.heartImages[1], x, y, null);
+                    }
+                }
+
+                canvas.drawBitmap(penguin.getWalkingPenguin(), penguin.x, penguin.y, paint);
 
 
-            if(isGameOver){
-                isPlaying = false;
-                canvas.drawBitmap(penguin.getPenguinDiedBitMap(),penguin.x,penguin.y,paint);
+
+                //after drawing unlock the canvas
                 getHolder().unlockCanvasAndPost(canvas);
-                penguin.resetCounter();
-                return;
+            }
+        }
+
+        private void sleep () {
+            try {
+                Thread.sleep(25);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void resume () {
+            isPlaying = true;
+            thread = new Thread(this);
+            thread.start();
+        }
+
+        public void pause () {
+            try {
+                isPlaying = false;
+                thread.join();
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override public boolean onTouchEvent (MotionEvent event){
+            switch (event.getAction()) {
+                // When the user puts his finger down the screen
+                //the penguin x stay the same
+                //the y change according to the finger movement
+                case MotionEvent.ACTION_DOWN:
+                    if (event.getX() < screenX / 2) {
+                        penguin.isGoingUp = true;
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    penguin.setGoingUp(false);
+                    break;
             }
 
-            if (hasCollided) {
-//                penguin.getWalkingPenguin().eraseColor(android.graphics.Color.TRANSPARENT);
-//                canvas.drawBitmap(penguin.getPenguinCollidedBitmap(),penguin.x,penguin.y,paint);
-                hasCollided = false;
-            }
-
-
-            for(Shark shark : sharks){
-                canvas.drawBitmap(shark.getSharkBitmap(),shark.x,shark.y,paint);
-            }
-
-            for (int i = 0; i < 3; i++) {
-                int x = (int) (1800 + hearts.heartImages[0].getWidth() * 1.1 * i);
-                int y = 80;
-
-                if (i < lifeCounter) {
-                    canvas.drawBitmap(hearts.heartImages[0], x, y, null);
-                }
-                else {
-                    canvas.drawBitmap(hearts.heartImages[1], x, y, null);
-                }
-            }
-
-
-
-            canvas.drawBitmap(penguin.getWalkingPenguin(),
-                    penguin.x, penguin.y, paint);
-
-            //after drawing unlock the canvas
-            getHolder().unlockCanvasAndPost(canvas);
+            return true;
         }
-    }
-
-    private void sleep() {
-        try {
-            Thread.sleep(25);
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void resume() {
-        isPlaying = true;
-        thread = new Thread(this);
-        thread.start();
-    }
-
-    public void pause() {
-        try {
-            isPlaying = false;
-            thread.join();
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            // When the user puts his finger down the screen
-            //the penguin x stay the same
-            //the y change according to the finger movement
-            case MotionEvent.ACTION_DOWN:
-                if (event.getX() < screenX / 2) {
-                    penguin.isGoingUp = true;
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                penguin.setGoingUp(false);
-                break;
-        }
-
-        return true;
-    }
 }

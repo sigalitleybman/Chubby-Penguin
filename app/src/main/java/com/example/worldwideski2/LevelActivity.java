@@ -14,6 +14,13 @@ public class LevelActivity extends AppCompatActivity {
     private ImageButton imageButtonIsraelUnlock;
     private ImageButton imageButtonSwitzerlandlLock;
     private ImageButton imageButtonSwitzerlandUnlock;
+//    private int penguinPicID;
+//    private int sharkPicID;
+    private int foodPicID;
+    private int obstaclePicID;
+    private int scorePerFood = 50;
+    private int neededScore;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +33,7 @@ public class LevelActivity extends AppCompatActivity {
         imageButtonIsraelUnlock = findViewById(R.id.israel_map);
         imageButtonSwitzerlandlLock = findViewById(R.id.switzerland_with_lock);
         imageButtonSwitzerlandUnlock = findViewById(R.id.switzerland_without_lock);
+
 
         //France
         imageButtonFranceLock.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +56,20 @@ public class LevelActivity extends AppCompatActivity {
         imageButtonIsraelUnlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LevelActivity.this, GameActivity.class));
+                foodPicID = R.drawable.falafel;
+                obstaclePicID = R.drawable.shark;
+                neededScore = 1000;
+
+                Level israeliLevel = new Level(1, 3,
+                        obstaclePicID, foodPicID, scorePerFood, neededScore);
+
+                Intent intent = new Intent(LevelActivity.this, GameActivity.class);
+
+                intent.putExtra("level", israeliLevel);
+
+                startActivity(intent);
+
+                //startActivity(new Intent(LevelActivity.this, GameActivity.class));
             }
         });
 
@@ -68,7 +89,6 @@ public class LevelActivity extends AppCompatActivity {
                 imageButtonSwitzerlandlLock.setVisibility(View.VISIBLE);
             }
         });
-
     }
 
 }
