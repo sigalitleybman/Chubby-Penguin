@@ -13,20 +13,24 @@ public class Food {
     int x,y,height,width;
     Bitmap foodBitmap;
 
-    Food(Resources res, int foodPicID) {
+    Food(Resources res, int foodPicID, int widthDivider, int heightDivider) {
 
         foodBitmap = BitmapFactory.decodeResource(res,foodPicID);
 
         width = foodBitmap.getWidth();
         height = foodBitmap.getHeight();
 
-        width /= 8;
-        height /= 8;
+        //TODO: send here the dividing param's
+
+        width /= widthDivider;
+        height /= heightDivider;
 
         width = (int) (screenRatioX * width);
         height = (int) (screenRatioY * height);
 
         foodBitmap = Bitmap.createScaledBitmap(foodBitmap, width, height, false);
+
+        y = -height;
     }
 
 

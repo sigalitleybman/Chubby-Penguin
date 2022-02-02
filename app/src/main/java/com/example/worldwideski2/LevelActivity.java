@@ -20,6 +20,10 @@ public class LevelActivity extends AppCompatActivity {
     private int obstaclePicID;
     private int scorePerFood = 50;
     private int neededScore;
+    private int widthImageDivider;
+    private int heightImageDivider;
+    private int obstacleAmount;
+    private int foodAmount;
 
 
     @Override
@@ -59,9 +63,14 @@ public class LevelActivity extends AppCompatActivity {
                 foodPicID = R.drawable.falafel;
                 obstaclePicID = R.drawable.shark;
                 neededScore = 1000;
+                widthImageDivider = 10;
+                heightImageDivider = 10;
+                obstacleAmount = 1;
+                foodAmount = 3;
 
-                Level israeliLevel = new Level(1, 3,
-                        obstaclePicID, foodPicID, scorePerFood, neededScore);
+                Level israeliLevel = new Level(obstacleAmount, foodAmount,
+                        obstaclePicID, foodPicID, scorePerFood, neededScore,
+                        widthImageDivider, heightImageDivider);
 
                 Intent intent = new Intent(LevelActivity.this, GameActivity.class);
 

@@ -97,7 +97,8 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void initListOfFoods() {
         for (int i = 0; i < level.getFoodAmount(); i++) {
-            listOfFoods.add(new Food(getResources(), level.getFoodPicID()));
+            listOfFoods.add(new Food(getResources(), level.getFoodPicID(),
+                    level.getWidthImageDivider(), level.getHeightImageDivider()));
         }
     }
 
@@ -146,7 +147,7 @@ public class GameView extends SurfaceView implements Runnable {
         for (Shark shark : sharks) {
             shark.x -= shark.speed;
             if (shark.x + shark.width < 0) {
-               // int bound = (int) (30 * screenRatioX);
+                // int bound = (int) (30 * screenRatioX);
                 //                shark.speed=random.nextInt(bound);
                 //                if(shark.speed<10*screenRatioX){
                 //                    shark.speed= (int) (20*screenRatioX);
@@ -158,7 +159,12 @@ public class GameView extends SurfaceView implements Runnable {
 
                 // locating the shark on the y Axis randomly.
                 try {
-                    shark.y = random.nextInt(screenY - shark.height);
+                     // Made upper and lower bounds for making a range to random, in order to fit
+                     //the shark picture in the screen.
+                    int upperBound =  screenY - shark.height;
+                    int lowerBound =  shark.height / 2;
+
+                    shark.y = random.nextInt(upperBound- lowerBound) + lowerBound;
                     Thread.sleep(10);
                 }
                 catch (InterruptedException e) {
@@ -195,7 +201,12 @@ public class GameView extends SurfaceView implements Runnable {
 
                 // locating the shark on the y Axis randomly.
                 try {
-                    food.y = random.nextInt(screenY - food.height);
+                    // Made upper and lower bounds for making a range to random, in order to fit
+                    //the food picture in the screen.
+                    int upperBound =  screenY - food.height;
+                    int lowerBound =  food.height / 2;
+
+                    food.y = random.nextInt(upperBound - lowerBound) + lowerBound;
                     Thread.sleep(10);
                 }
                 catch (InterruptedException e) {
@@ -226,22 +237,21 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(backgroundGame1.background, backgroundGame1.x, backgroundGame1.y, paint);
                 canvas.drawBitmap(backgroundGame2.background, backgroundGame2.x, backgroundGame2.y, paint);
 
-                /**
-                 * drawing the obstacles.
-                 */
+
+                // drawing the obstacles.
                 for (Shark shark : sharks) {
                     canvas.drawBitmap(shark.getSharkBitmap(), shark.x, shark.y, paint);
                 }
 
-                /**
-                 * drawing the foodies.
-                 */
+
+                // drawing the foodies.
                 for (Food food : listOfFoods) {
                     canvas.drawBitmap(food.getFoodBitmap(), food.x, food.y, paint);
                 }
 
                 canvas.drawText(currentScore + "/" + neededScore, screenX / 2.5f, 164, paint);
 
+                // checking if the game was over.
                 if (isGameOver) {
                     isPlaying = false;
                     canvas.drawBitmap(penguin.getPenguinDiedBitMap(), penguin.x, penguin.y, paint);
@@ -250,27 +260,11 @@ public class GameView extends SurfaceView implements Runnable {
                     return;
                 }
 
-                //TODO: resolve the has collided problem.
-//                if (hasCollided) {
-//                    //                penguin.getWalkingPenguin().eraseColor(android.graphics.Color.TRANSPARENT);
-//
-//                    try {
-//                        canvas.drawBitmap(penguin.getPenguinCollidedBitmap(),penguin.x,penguin.y,paint);
-//                        hasCollided = false;
-//                        Thread.sleep(100);
-//
-//                    }
-//                    catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                }
 
-                /**
-                 * drawing the current amount of red and white lives.
-                 */
+
+                //drawing the current amount of red and white lives.
                 for (int i = 0; i < 3; i++) {
-                    int x = (int) (1800 + hearts.heartImages[0].getWidth() * 1.1 * i);
+                    int x = (int) (1700 + hearts.heartImages[0].getWidth() * 1.1 * i);
                     int y = 80;
 
                     if (i < lifeCounter) {
@@ -282,8 +276,6 @@ public class GameView extends SurfaceView implements Runnable {
                 }
 
                 canvas.drawBitmap(penguin.getWalkingPenguin(), penguin.x, penguin.y, paint);
-
-
 
                 //after drawing unlock the canvas
                 getHolder().unlockCanvasAndPost(canvas);

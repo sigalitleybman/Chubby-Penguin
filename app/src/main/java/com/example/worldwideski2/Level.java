@@ -6,23 +6,26 @@ import android.os.Parcelable;
 public class Level implements Parcelable {
     private int obstacleAmount;
     private int foodAmount;
-//    private int penguinPic;   //~~
-    private int obstaclePicID;     // ~~
+    private int obstaclePicID;
     private int foodPicID;
     private int scorePerFood;
     private int neededScore;
-//    private String country;
+    private int widthImageDivider;
+    private int heightImageDivider;
 
 
     public Level(int obstacleAmount, int foodAmount, int obstaclePicID,
-                 int foodPicID, int scorePerFood, int neededScore) {
+                 int foodPicID, int scorePerFood, int neededScore,
+                 int widthImageDivider, int heightImageDivider) {
         this.obstacleAmount = obstacleAmount;
         this.foodAmount = foodAmount;
         this.obstaclePicID = obstaclePicID;
         this.foodPicID = foodPicID;
         this.scorePerFood = scorePerFood;
         this.neededScore = neededScore;
-        // this.country = country;
+        this.widthImageDivider = widthImageDivider;
+        this.heightImageDivider = heightImageDivider;
+
     }
 
     //this constructor was generated due to the CREATOR
@@ -33,6 +36,8 @@ public class Level implements Parcelable {
         foodPicID = in.readInt();
         scorePerFood = in.readInt();
         neededScore = in.readInt();
+        widthImageDivider = in.readInt();
+        heightImageDivider = in.readInt();
     }
 
     public static final Creator<Level> CREATOR = new Creator<Level>() {
@@ -63,21 +68,21 @@ public class Level implements Parcelable {
         this.foodAmount = foodAmount;
     }
 
-//    public int getPenguinPic() {
-//        return penguinPic;
-//    }
-//
-//    public void setPenguinPic(int penguinPic) {
-//        this.penguinPic = penguinPic;
-//    }
-//
-//    public int getSharkPic() {
-//        return sharkPic;
-//    }
-//
-//    public void setSharkPic(int sharkPic) {
-//        this.sharkPic = sharkPic;
-//    }
+    public int getWidthImageDivider() {
+        return widthImageDivider;
+    }
+
+    public void setWidthImageDivider(int widthImageDivider) {
+        this.widthImageDivider = widthImageDivider;
+    }
+
+    public int getHeightImageDivider() {
+        return heightImageDivider;
+    }
+
+    public void setHeightImageDivider(int heightImageDivider) {
+        this.heightImageDivider = heightImageDivider;
+    }
 
     public int getFoodPicID() {
         return foodPicID;
@@ -103,27 +108,17 @@ public class Level implements Parcelable {
         this.neededScore = neededScore;
     }
 
-//   // public String getCountry() {
-//        return country;
-//    }
-
-//    public void setCountry(String country) {
-//        this.country = country;
-//    }
-
-
     @Override
     public String toString() {
-        return "Level{" +
-                "sharkAmount=" + obstacleAmount +
+        return "Level{" + "obstacleAmount=" + obstacleAmount +
                 ", foodAmount=" + foodAmount +
-//                ", penguinPic=" + penguinPic +
-//                ", sharkPic=" + sharkPic +
-                ", foodPic=" + foodPicID +
+                ", obstaclePicID=" + obstaclePicID +
+                ", foodPicID=" + foodPicID +
                 ", scorePerFood=" + scorePerFood +
                 ", neededScore=" + neededScore +
-//                ", country='" + country
-                + '\'' + '}';
+                ", widthImageDivider=" + widthImageDivider +
+                ", heightImageDivider=" + heightImageDivider +
+                '}';
     }
 
     @Override
@@ -139,5 +134,7 @@ public class Level implements Parcelable {
         dest.writeInt(foodPicID);
         dest.writeInt(scorePerFood);
         dest.writeInt(neededScore);
+        dest.writeInt(widthImageDivider);
+        dest.writeInt(heightImageDivider);
     }
 }
