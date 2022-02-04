@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="300dp"
-    android:layout_height="300dp"
+    android:layout_height="270dp"
     android:layout_gravity="center"
     android:background="@drawable/penguin_finished_level"
     android:orientation="vertical">
@@ -35,13 +35,12 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
 
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:scaleType="fitXY"
+        android:layout_alignParentRight="true"
+        android:padding="5dp"
+        android:layout_marginTop="150dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="80dp"
-
         android:background="@null"
+        android:scaleType="fitXY"
 
 
         android:src="@drawable/arrow_when_finished_level" />
