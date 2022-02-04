@@ -20,6 +20,7 @@ public class Penguin {
 //    final Bitmap penguinDied[] = new Bitmap[3];
     Bitmap penguinCollided;
     Bitmap penguinDied;
+    Bitmap happyPenguinWhenFinishedLevel;
     int penguinWalkingCounter = -1;
     int penguinDeadCounter = -1;
 
@@ -44,21 +45,16 @@ public class Penguin {
         penguinWalking[2] = Bitmap.createScaledBitmap(penguinWalking[2], width, height, false);
         penguinWalking[3] = Bitmap.createScaledBitmap(penguinWalking[3], width, height, false);
 
-        //  setScaledBitmap();
-//        penguinDied[0] = BitmapFactory.decodeResource(res, R.drawable.penguin_collision);
-//        penguinDied[1] = BitmapFactory.decodeResource(res, R.drawable.penguin_died_1);
-//        penguinDied[2] = BitmapFactory.decodeResource(res, R.drawable.penguin_died_2);
-//
-//        penguinDied[0] =Bitmap.createScaledBitmap(penguinDied[0], width, height, false);
-//        penguinDied[1] =Bitmap.createScaledBitmap(penguinDied[1], width, height, false);
-//        penguinDied[2] =Bitmap.createScaledBitmap(penguinDied[2], width, height, false);
 
         penguinCollided = BitmapFactory.decodeResource(res, R.drawable.penguin_collision);
         penguinCollided = Bitmap.createScaledBitmap(penguinCollided, width, height, false);
 
-
         penguinDied = BitmapFactory.decodeResource(res, R.drawable.penguin_died_2);
         penguinDied = Bitmap.createScaledBitmap(penguinDied, width, height, false);
+
+        happyPenguinWhenFinishedLevel = BitmapFactory.decodeResource(res, R.drawable.finished_level_happy_penguin);
+        happyPenguinWhenFinishedLevel = Bitmap.createScaledBitmap(happyPenguinWhenFinishedLevel, width, height, false);
+
 
         y = screenY / 2;
         x = (int) (64 * screenRatioX);
@@ -107,6 +103,10 @@ public class Penguin {
 
     Bitmap getPenguinDiedBitMap() {
         return penguinDied;
+    }
+
+    Bitmap getFinishedLevelHappyPenguin() {
+        return happyPenguinWhenFinishedLevel;
     }
 
     public void resetCounter() {

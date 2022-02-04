@@ -10,4 +10,8 @@
     <string name="volume">שמע:</string>
     <string name="instructions">הוראות</string>
     <string name="instructions_content">אתה צריך לחצות את מסלול הסקי בלי להתקל במכשולים.</string>
+    <string name="finished_level">כל הכבוד</string>
+    <string name="finished_game">יאייי סיימת את המשחק</string>
+    <string name="finished_israel_level">שלב שוויץ נפתח  !!</string>
+    <string name="finished_switzerland_level">שלב צרפת נפתח !!</string>
 </resources>

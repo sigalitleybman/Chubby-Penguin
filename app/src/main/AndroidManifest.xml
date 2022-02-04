@@ -15,6 +15,7 @@
         <activity android:name=".GameActivity"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
@@ -24,8 +25,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".PopupSettingsActivity" />
+
         <activity android:name=".LevelActivity" />
+
+
 
     </application>
 

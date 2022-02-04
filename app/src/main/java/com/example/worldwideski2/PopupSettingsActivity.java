@@ -40,7 +40,6 @@ public class PopupSettingsActivity extends MusicalBase {
 
         volumeSeekbar.setProgress(currentVolume);
 
-
         volumeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

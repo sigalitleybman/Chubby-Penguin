@@ -1,5 +1,8 @@
 package com.example.worldwideski2;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 public class MainActivity extends MusicalBase {
 
@@ -50,6 +54,22 @@ public class MainActivity extends MusicalBase {
 
         changeToVolumeOff();
         changeToVolumeOn();
+
+
+
+        //create the button animation - change scaleX and scaleY
+        Button buttonStart = findViewById(R.id.button_lets_start);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(buttonStart,"scaleX",((float)(1.15))).setDuration(250);
+        ObjectAnimator animator2 = ObjectAnimator.ofFloat(buttonStart,"scaleY",((float)(1.15))).setDuration(250);
+        animator.setRepeatMode(ValueAnimator.REVERSE);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator2.setRepeatMode(ValueAnimator.REVERSE);
+        animator2.setRepeatCount(ValueAnimator.INFINITE);
+        AnimatorSet set1 = new AnimatorSet();
+        set1.playTogether(animator,animator2);
+        set1.start();
+
+
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
