@@ -3,17 +3,23 @@ package com.example.worldwideski2;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 
 public class MainActivity extends MusicalBase {
 
@@ -74,8 +80,36 @@ public class MainActivity extends MusicalBase {
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PopupSettingsActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this, PopupSettingsActivity.class);
+//                startActivity(intent);
+                  //AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//                  LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
+//                  View viewInflater = inflater.inflate(R.layout.pop_up_settings, null,false);
+//                  builder.setView(viewInflater);
+//                  AlertDialog finishDialog = builder.create();
+//                  finishDialog.setCancelable(false);
+//                  finishDialog.show();
+//               LayoutInflater inflater = getLayoutInflater();
+//               View view = inflater.inflate(R.layout.pop_up_settings,null);
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                final View settingsPopUpView = getLayoutInflater().inflate(R.layout.pop_up_settings,null);
+                RadioGroup chooseLanguage = (RadioGroup) settingsPopUpView.findViewById(R.id.toggle);
+                SeekBar volumeSeekBar = (SeekBar) settingsPopUpView.findViewById(R.id.volume_seekbar);
+                dialogBuilder.setView(settingsPopUpView);
+                Dialog settingsPopUpDialog = dialogBuilder.create();
+                settingsPopUpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                //Getting the window size
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                int width = displayMetrics.widthPixels;
+                int height= displayMetrics.heightPixels;
+
+                settingsPopUpDialog.getWindow().setLayout((int)(width*0.9),(int)(height*0.1));
+                settingsPopUpDialog.show();
+
+
+
             }
         });
 

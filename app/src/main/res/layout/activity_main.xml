@@ -39,7 +39,6 @@
             android:layout_alignParentEnd="true"
             android:layout_gravity="right"
             android:background="@null"
-            android:onClick="showSettingsPopup"
             android:src="@drawable/settings"
             app:tint="@color/black" />
 
