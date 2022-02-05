@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -33,12 +34,10 @@ public class MainActivity extends MusicalBase {
     private Button letsStartButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
         volumeButtonOn = findViewById(R.id.image_button_volume_on);
@@ -51,10 +50,9 @@ public class MainActivity extends MusicalBase {
         MusicManager.Instance().initializeMusic(this, flowMusic);
 
 
-
         dialogInfo = new Dialog(this);
 
-        MusicManager.Instance().initializeMusic(this,flowMusic);
+        MusicManager.Instance().initializeMusic(this, flowMusic);
         //startMusic();
         //musicPlayer.start();
 
@@ -62,53 +60,53 @@ public class MainActivity extends MusicalBase {
         changeToVolumeOn();
 
 
-
         //create the button animation - change scaleX and scaleY
         Button buttonStart = findViewById(R.id.button_lets_start);
-        ObjectAnimator animator = ObjectAnimator.ofFloat(buttonStart,"scaleX",((float)(1.15))).setDuration(250);
-        ObjectAnimator animator2 = ObjectAnimator.ofFloat(buttonStart,"scaleY",((float)(1.15))).setDuration(250);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(buttonStart, "scaleX", ((float) (1.15))).setDuration(250);
+        ObjectAnimator animator2 = ObjectAnimator.ofFloat(buttonStart, "scaleY", ((float) (1.15))).setDuration(250);
         animator.setRepeatMode(ValueAnimator.REVERSE);
         animator.setRepeatCount(ValueAnimator.INFINITE);
         animator2.setRepeatMode(ValueAnimator.REVERSE);
         animator2.setRepeatCount(ValueAnimator.INFINITE);
         AnimatorSet set1 = new AnimatorSet();
-        set1.playTogether(animator,animator2);
+        set1.playTogether(animator, animator2);
         set1.start();
-
 
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, PopupSettingsActivity.class);
-//                startActivity(intent);
-                  //AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//                  LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
-//                  View viewInflater = inflater.inflate(R.layout.pop_up_settings, null,false);
-//                  builder.setView(viewInflater);
-//                  AlertDialog finishDialog = builder.create();
-//                  finishDialog.setCancelable(false);
-//                  finishDialog.show();
-//               LayoutInflater inflater = getLayoutInflater();
-//               View view = inflater.inflate(R.layout.pop_up_settings,null);
-
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                final View settingsPopUpView = getLayoutInflater().inflate(R.layout.pop_up_settings,null);
-                RadioGroup chooseLanguage = (RadioGroup) settingsPopUpView.findViewById(R.id.toggle);
-                SeekBar volumeSeekBar = (SeekBar) settingsPopUpView.findViewById(R.id.volume_seekbar);
-                dialogBuilder.setView(settingsPopUpView);
-                Dialog settingsPopUpDialog = dialogBuilder.create();
-                settingsPopUpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                //Getting the window size
-                DisplayMetrics displayMetrics = new DisplayMetrics();
-                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                int width = displayMetrics.widthPixels;
-                int height= displayMetrics.heightPixels;
-
-                settingsPopUpDialog.getWindow().setLayout((int)(width*0.9),(int)(height*0.1));
-                settingsPopUpDialog.show();
+                //                Intent intent = new Intent(MainActivity.this, PopupSettingsActivity.class);
+                //                startActivity(intent);
+                //AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                //                  LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
+                //                  View viewInflater = inflater.inflate(R.layout.pop_up_settings, null,false);
+                //                  builder.setView(viewInflater);
+                //                  AlertDialog finishDialog = builder.create();
+                //                  finishDialog.setCancelable(false);
+                //                  finishDialog.show();
+                //               LayoutInflater inflater = getLayoutInflater();
+                //               View view = inflater.inflate(R.layout.pop_up_settings,null);
+                showPopUpSettingsDialog();
 
 
+                //                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                //                final View settingsPopUpView = getLayoutInflater().inflate(R.layout.pop_up_settings,null);
+                //
+                //                RadioGroup chooseLanguage = (RadioGroup) settingsPopUpView.findViewById(R.id.toggle);
+                //                SeekBar volumeSeekBar = (SeekBar) settingsPopUpView.findViewById(R.id.volume_seekbar);
+                //
+                //                dialogBuilder.setView(settingsPopUpView);
+                //                Dialog settingsPopUpDialog = dialogBuilder.create();
+                //                settingsPopUpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                //
+                //                //Getting the window size
+                //                DisplayMetrics displayMetrics = new DisplayMetrics();
+                //                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                //                int width = displayMetrics.widthPixels;
+                //                int height= displayMetrics.heightPixels;
+                //
+                //                settingsPopUpDialog.getWindow().setLayout((int)(width*0.9),(int)(height*0.2));
 
             }
         });
@@ -120,6 +118,55 @@ public class MainActivity extends MusicalBase {
                 startActivity(intent);
             }
         });
+    }
+
+    private void showPopUpSettingsDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.pop_up_settings);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
+        dialog.getWindow().setLayout((int) (width * 0.9), (int) (height * 0.7));
+
+
+        SeekBar volumeSeekbar =  dialog.findViewById(R.id.volume_seekbar);
+        AudioManager audioManager =  (AudioManager) (getSystemService(AUDIO_SERVICE));
+
+        //get max volume
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
+        //get current volume
+        int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+        volumeSeekbar.setMax(maxVolume);
+
+        volumeSeekbar.setProgress(currentVolume);
+
+
+
+        volumeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                //here we set the volume by putting the 0 in flag
+                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+        dialog.show();
     }
 
     /**
@@ -153,10 +200,9 @@ public class MainActivity extends MusicalBase {
      * This method is responsible for starting the music , while saving resources,
      * if the musicPlayer isn't allocated , it gets allocated.
      * then if the song is over, we release the resources.
-     *
      */
-    private void startMusic(){
-        if(musicPlayer == null){
+    private void startMusic() {
+        if (musicPlayer == null) {
             musicPlayer = MediaPlayer.create(this, R.raw.audio);
 
             musicPlayer.setOnCompletionListener(mp -> startMusic());
@@ -168,8 +214,8 @@ public class MainActivity extends MusicalBase {
     /**
      * Here we stop the music by realising the resources.
      */
-    private void stopMusic(){
-        if(musicPlayer != null){
+    private void stopMusic() {
+        if (musicPlayer != null) {
             musicPlayer.release();
             musicPlayer = null;
         }
@@ -184,11 +230,12 @@ public class MainActivity extends MusicalBase {
         //stopMusic();
     }
 
-     /**
+    /**
      * This method responsible for showing the dialog settings popup.
+     *
      * @param view - the MainActivity on which we display the dialog settings popup.
      */
-    public void showInfoPopup(View view){
+    public void showInfoPopup(View view) {
         dialogInfo.setContentView(R.layout.activity_info);
         dialogInfo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogInfo.show();

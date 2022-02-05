@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PopupSettingsActivity" />
+<!--        <activity android:name=".PopupSettingsActivity" />-->
 
         <activity android:name=".LevelActivity" />
 
