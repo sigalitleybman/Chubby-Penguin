@@ -53,7 +53,7 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/selected_hebrew"
+                    android:id="@+id/radio_button_selected_hebrew"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="1dp"
@@ -67,7 +67,7 @@
                     android:textSize="20sp" />
 
                 <RadioButton
-                    android:id="@+id/selected_english"
+                    android:id="@+id/radio_button_selected_english"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginTop="1dp"

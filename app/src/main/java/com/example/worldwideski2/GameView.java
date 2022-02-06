@@ -279,6 +279,7 @@ public class GameView extends SurfaceView implements Runnable {
 
                         // creating the arrow animation.
                         ImageButton arrow = viewInflater.findViewById(R.id.image_button_arrow);
+
                         ObjectAnimator animator = ObjectAnimator.
                                 ofFloat(arrow, "scaleX", ((float) (1.15))).setDuration(250);
                         ObjectAnimator animator2 = ObjectAnimator.

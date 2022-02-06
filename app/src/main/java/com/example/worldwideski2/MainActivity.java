@@ -18,9 +18,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
 public class MainActivity extends MusicalBase {
 
@@ -32,6 +34,8 @@ public class MainActivity extends MusicalBase {
     private MediaPlayer musicPlayer;
     private int flowMusic;
     private Button letsStartButton;
+    private LanguageSetter language;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,8 @@ public class MainActivity extends MusicalBase {
 
 
         dialogInfo = new Dialog(this);
+
+        language = new LanguageSetter(this);
 
         MusicManager.Instance().initializeMusic(this, flowMusic);
         //startMusic();
@@ -73,43 +79,7 @@ public class MainActivity extends MusicalBase {
         set1.start();
 
 
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //                Intent intent = new Intent(MainActivity.this, PopupSettingsActivity.class);
-                //                startActivity(intent);
-                //AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                //                  LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
-                //                  View viewInflater = inflater.inflate(R.layout.pop_up_settings, null,false);
-                //                  builder.setView(viewInflater);
-                //                  AlertDialog finishDialog = builder.create();
-                //                  finishDialog.setCancelable(false);
-                //                  finishDialog.show();
-                //               LayoutInflater inflater = getLayoutInflater();
-                //               View view = inflater.inflate(R.layout.pop_up_settings,null);
-                showPopUpSettingsDialog();
-
-
-                //                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-                //                final View settingsPopUpView = getLayoutInflater().inflate(R.layout.pop_up_settings,null);
-                //
-                //                RadioGroup chooseLanguage = (RadioGroup) settingsPopUpView.findViewById(R.id.toggle);
-                //                SeekBar volumeSeekBar = (SeekBar) settingsPopUpView.findViewById(R.id.volume_seekbar);
-                //
-                //                dialogBuilder.setView(settingsPopUpView);
-                //                Dialog settingsPopUpDialog = dialogBuilder.create();
-                //                settingsPopUpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                //
-                //                //Getting the window size
-                //                DisplayMetrics displayMetrics = new DisplayMetrics();
-                //                getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-                //                int width = displayMetrics.widthPixels;
-                //                int height= displayMetrics.heightPixels;
-                //
-                //                settingsPopUpDialog.getWindow().setLayout((int)(width*0.9),(int)(height*0.2));
-
-            }
-        });
+        settingsButton.setOnClickListener(v -> showPopUpSettingsDialog());
 
         letsStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,32 +90,53 @@ public class MainActivity extends MusicalBase {
         });
     }
 
+    /**
+     *  create and display the settings dialog.
+     */
     private void showPopUpSettingsDialog() {
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.pop_up_settings);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        // Setting the dimensions of the settings pop up.
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
         int height = displayMetrics.heightPixels;
         dialog.getWindow().setLayout((int) (width * 0.9), (int) (height * 0.7));
 
+        //managing the language of the app.
 
+        RadioButton hebrewRadioButton = dialog.findViewById(R.id.radio_button_selected_hebrew);
+        RadioButton englishRadioButton = dialog.findViewById(R.id.radio_button_selected_english);
+
+        hebrewRadioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                language.updateResource("iw");
+                recreate();
+            }
+        });
+
+        englishRadioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                language.updateResource("en");
+                recreate();
+            }
+        });
+
+
+
+        // managing the sound of the app via the seek bar.
         SeekBar volumeSeekbar =  dialog.findViewById(R.id.volume_seekbar);
         AudioManager audioManager =  (AudioManager) (getSystemService(AUDIO_SERVICE));
-
         //get max volume
         int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-
         //get current volume
         int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-
         volumeSeekbar.setMax(maxVolume);
-
         volumeSeekbar.setProgress(currentVolume);
-
-
 
         volumeSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
