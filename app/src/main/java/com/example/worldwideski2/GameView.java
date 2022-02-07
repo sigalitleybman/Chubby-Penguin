@@ -232,10 +232,11 @@ public class GameView extends SurfaceView implements Runnable {
                 currentScore += foodScore;
                 // hasCollided = true;
 
-                if (currentScore == 50) {
+                if (currentScore == neededScore) {
                     hasFinishedLevel = true;
                     //isGameOver = true;
                 }
+
             }
         }
     }
@@ -303,14 +304,14 @@ public class GameView extends SurfaceView implements Runnable {
                 return;
             }
 
-            // checking if the game was over.
-//            if (isGameOver) {
-//                isPlaying = false;
-//                canvas.drawBitmap(penguin.getPenguinDiedBitMap(), penguin.x, penguin.y, paint);
-//                getHolder().unlockCanvasAndPost(canvas);
-//                penguin.resetCounter();
-//                return;
-//            }
+         //    checking if the game was over.
+            if (isGameOver) {
+                isPlaying = false;
+                canvas.drawBitmap(penguin.getPenguinDiedBitMap(), penguin.x, penguin.y, paint);
+                getHolder().unlockCanvasAndPost(canvas);
+                penguin.resetCounter();
+                return;
+            }
 
 
             //drawing the current amount of red and white lives.

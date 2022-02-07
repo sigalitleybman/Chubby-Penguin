@@ -53,6 +53,23 @@ public class LevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 imageButtonFranceUnlock.setVisibility(View.INVISIBLE);
                 imageButtonFranceLock.setVisibility(View.VISIBLE);
+                foodPicID = R.drawable.croissant_france;
+                obstaclePicID = R.drawable.shark;
+                neededScore = 1000;
+                widthImageDivider = 3;
+                heightImageDivider = 3;
+                obstacleAmount = 2;
+                foodAmount = 3;
+
+                Level frenchLevel = new Level(obstacleAmount, foodAmount,
+                        obstaclePicID, foodPicID, scorePerFood, neededScore,
+                        widthImageDivider, heightImageDivider);
+
+                Intent intent = new Intent(LevelActivity.this, GameActivity.class);
+
+                intent.putExtra("level", frenchLevel);
+
+                startActivity(intent);
             }
         });
 
@@ -62,7 +79,7 @@ public class LevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 foodPicID = R.drawable.falafel;
                 obstaclePicID = R.drawable.shark;
-                neededScore = 1000;
+                neededScore = 500;
                 widthImageDivider = 10;
                 heightImageDivider = 10;
                 obstacleAmount = 1;
@@ -88,6 +105,7 @@ public class LevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 imageButtonSwitzerlandlLock.setVisibility(View.INVISIBLE);
                 imageButtonSwitzerlandUnlock.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -96,6 +114,19 @@ public class LevelActivity extends AppCompatActivity {
             public void onClick(View v) {
                 imageButtonSwitzerlandUnlock.setVisibility(View.INVISIBLE);
                 imageButtonSwitzerlandlLock.setVisibility(View.VISIBLE);
+                foodPicID = R.drawable.cheese;
+                obstaclePicID = R.drawable.shark;
+                neededScore = 2000;
+                widthImageDivider = 5;
+                heightImageDivider = 5;
+                obstacleAmount = 3;
+                foodAmount = 3;
+                Level switzerlandLevel = new Level(obstacleAmount, foodAmount,
+                        obstaclePicID, foodPicID, scorePerFood, neededScore,
+                        widthImageDivider, heightImageDivider);
+                Intent intent = new Intent(LevelActivity.this, GameActivity.class);
+                intent.putExtra("level", switzerlandLevel);
+                startActivity(intent);
             }
         });
     }
