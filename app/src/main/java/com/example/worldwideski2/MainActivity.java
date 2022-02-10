@@ -31,7 +31,7 @@ public class MainActivity extends MusicalBase {
     private ImageButton settingsButton;
     private ImageButton infoButton;
     private Dialog dialogInfo;
-    private MediaPlayer musicPlayer;
+//    private MediaPlayer musicPlayer;
     private int flowMusic;
     private Button letsStartButton;
     private LanguageSetter language;
@@ -51,6 +51,7 @@ public class MainActivity extends MusicalBase {
         letsStartButton = findViewById(R.id.button_lets_start);
         flowMusic = R.raw.audio;
 
+        //starting the music
         MusicManager.Instance().initializeMusic(this, flowMusic);
 
 
@@ -58,7 +59,7 @@ public class MainActivity extends MusicalBase {
 
         language = new LanguageSetter(this);
 
-        MusicManager.Instance().initializeMusic(this, flowMusic);
+
         //startMusic();
         //musicPlayer.start();
 
@@ -168,7 +169,8 @@ public class MainActivity extends MusicalBase {
         volumeButtonOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startMusic();
+//                startMusic();
+                onStart();
                 volumeButtonOff.setVisibility(View.INVISIBLE);
                 volumeButtonOn.setVisibility(View.VISIBLE);
             }
@@ -181,7 +183,8 @@ public class MainActivity extends MusicalBase {
      */
     private void changeToVolumeOff() {
         volumeButtonOn.setOnClickListener(v -> {
-            stopMusic();
+            onPause();
+//            stopMusic();
             volumeButtonOn.setVisibility(View.INVISIBLE);
             volumeButtonOff.setVisibility(View.VISIBLE);
         });
@@ -192,25 +195,26 @@ public class MainActivity extends MusicalBase {
      * if the musicPlayer isn't allocated , it gets allocated.
      * then if the song is over, we release the resources.
      */
-    private void startMusic() {
-        if (musicPlayer == null) {
-            musicPlayer = MediaPlayer.create(this, R.raw.audio);
-
-            musicPlayer.setOnCompletionListener(mp -> startMusic());
-        }
-
-        musicPlayer.start();
-    }
+//    private void startMusic() {
+//        if (musicPlayer == null) {
+//            musicPlayer = MediaPlayer.create(this, R.raw.audio);
+//
+//            musicPlayer.setOnCompletionListener(mp -> startMusic());
+//        }
+//
+//
+//        musicPlayer.start();
+//    }
 
     /**
      * Here we stop the music by realising the resources.
      */
-    private void stopMusic() {
-        if (musicPlayer != null) {
-            musicPlayer.release();
-            musicPlayer = null;
-        }
-    }
+//    private void stopMusic() {
+//        if (musicPlayer != null) {
+//            musicPlayer.release();
+//            musicPlayer = null;
+//        }
+//    }
 
     /**
      * This method responsible for stopping the audio when leaving the app.
@@ -231,4 +235,5 @@ public class MainActivity extends MusicalBase {
         dialogInfo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogInfo.show();
     }
+
 }

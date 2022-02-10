@@ -5,6 +5,7 @@
     </stroke>
     <solid
         android:color="@color/turkiz">
+
     </solid>
     <corners
         android:radius="40dp">

@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends MusicalBase {
 
     // game view represents the logic of the app
     private GameView gameView;
@@ -51,4 +51,6 @@ public class GameActivity extends AppCompatActivity {
         super.onResume();
         gameView.resume();
     }
+
+
 }

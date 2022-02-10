@@ -17,8 +17,9 @@ public final class MusicManager {
     private MusicManager() {}
 
     /**
+     * This method.......
      * @return Using here a double check lock inorder to prevent a queue of threads,
-     * actually it'll only be good for the first run , the next time when the thread would see a lock he wouldn't have
+     * actually it'll only be good for the first run, the next time when the thread would see a lock he wouldn't have
      * to wait so long and maybe even for nothing.
      * So, to prevent such case we've used a double check lock.
      */
@@ -35,14 +36,14 @@ public final class MusicManager {
     }
 
     /**
-     * initialize the music
+     * Initialize the music
      * @param context - context
      * @param musicID - it's the id of the audio.
      */
     public void initializeMusic(Context context, int musicID) {
         mediaPlayer = MediaPlayer.create(context, musicID);
         mediaPlayer.setLooping(true);
-        //mediaPlayer.setVolume(100, 100);
+//        mediaPlayer.setVolume(100, 100);
         play(false);
     }
 
