@@ -12,11 +12,12 @@ public class Level implements Parcelable {
     private int neededScore;
     private int widthImageDivider;
     private int heightImageDivider;
+    private String countryName;
 
 
     public Level(int obstacleAmount, int foodAmount, int obstaclePicID,
                  int foodPicID, int scorePerFood, int neededScore,
-                 int widthImageDivider, int heightImageDivider) {
+                 int widthImageDivider, int heightImageDivider,String countryName) {
         this.obstacleAmount = obstacleAmount;
         this.foodAmount = foodAmount;
         this.obstaclePicID = obstaclePicID;
@@ -25,6 +26,8 @@ public class Level implements Parcelable {
         this.neededScore = neededScore;
         this.widthImageDivider = widthImageDivider;
         this.heightImageDivider = heightImageDivider;
+        this.countryName = countryName;
+
 
     }
 
@@ -38,6 +41,7 @@ public class Level implements Parcelable {
         neededScore = in.readInt();
         widthImageDivider = in.readInt();
         heightImageDivider = in.readInt();
+        countryName =in.readString();
     }
 
     public static final Creator<Level> CREATOR = new Creator<Level>() {
@@ -108,9 +112,15 @@ public class Level implements Parcelable {
         this.neededScore = neededScore;
     }
 
+    public String getCountryName() {
+        return countryName;
+    }
+
+
     @Override
     public String toString() {
-        return "Level{" + "obstacleAmount=" + obstacleAmount +
+        return "Level{" +
+                "obstacleAmount=" + obstacleAmount +
                 ", foodAmount=" + foodAmount +
                 ", obstaclePicID=" + obstaclePicID +
                 ", foodPicID=" + foodPicID +
@@ -118,6 +128,7 @@ public class Level implements Parcelable {
                 ", neededScore=" + neededScore +
                 ", widthImageDivider=" + widthImageDivider +
                 ", heightImageDivider=" + heightImageDivider +
+                ", countryName='" + countryName + '\'' +
                 '}';
     }
 
@@ -136,5 +147,6 @@ public class Level implements Parcelable {
         dest.writeInt(neededScore);
         dest.writeInt(widthImageDivider);
         dest.writeInt(heightImageDivider);
+        dest.writeString(countryName);
     }
 }

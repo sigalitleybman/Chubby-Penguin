@@ -1,13 +1,16 @@
 package com.example.worldwideski2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class LevelActivity extends AppCompatActivity {
+public class LevelActivity extends MusicalBase {
     private ImageButton imageButtonFranceLock;
     private ImageButton imageButtonFranceUnlock;
     private ImageButton imageButtonIsraelLock;
@@ -24,6 +27,10 @@ public class LevelActivity extends AppCompatActivity {
     private int heightImageDivider;
     private int obstacleAmount;
     private int foodAmount;
+    private String countryName;
+    private Animation rotateAnim;
+    Boolean isSwissOpen = false;
+    Boolean isFranceOpen = false;
 
 
     @Override
@@ -37,22 +44,21 @@ public class LevelActivity extends AppCompatActivity {
         imageButtonIsraelUnlock = findViewById(R.id.israel_map);
         imageButtonSwitzerlandlLock = findViewById(R.id.switzerland_with_lock);
         imageButtonSwitzerlandUnlock = findViewById(R.id.switzerland_without_lock);
+        rotateAnim = AnimationUtils.loadAnimation(this,R.anim.rotate);
 
 
-        //France
-        imageButtonFranceLock.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imageButtonFranceLock.setVisibility(View.INVISIBLE);
-                imageButtonFranceUnlock.setVisibility(View.VISIBLE);
-            }
-        });
+//        //France
+//        imageButtonFranceLock.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                imageButtonFranceLock.setVisibility(View.INVISIBLE);
+//                imageButtonFranceUnlock.setVisibility(View.VISIBLE);
+//            }
+//        });
 
         imageButtonFranceUnlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageButtonFranceUnlock.setVisibility(View.INVISIBLE);
-                imageButtonFranceLock.setVisibility(View.VISIBLE);
                 foodPicID = R.drawable.croissant_france;
                 obstaclePicID = R.drawable.shark;
                 neededScore = 1000;
@@ -60,10 +66,11 @@ public class LevelActivity extends AppCompatActivity {
                 heightImageDivider = 3;
                 obstacleAmount = 2;
                 foodAmount = 3;
+                countryName ="FRANCE";
 
                 Level frenchLevel = new Level(obstacleAmount, foodAmount,
                         obstaclePicID, foodPicID, scorePerFood, neededScore,
-                        widthImageDivider, heightImageDivider);
+                        widthImageDivider, heightImageDivider,countryName);
 
                 Intent intent = new Intent(LevelActivity.this, GameActivity.class);
 
@@ -84,10 +91,11 @@ public class LevelActivity extends AppCompatActivity {
                 heightImageDivider = 10;
                 obstacleAmount = 1;
                 foodAmount = 3;
+                countryName ="ISRAEL";
 
                 Level israeliLevel = new Level(obstacleAmount, foodAmount,
                         obstaclePicID, foodPicID, scorePerFood, neededScore,
-                        widthImageDivider, heightImageDivider);
+                        widthImageDivider, heightImageDivider,countryName);
 
                 Intent intent = new Intent(LevelActivity.this, GameActivity.class);
 
@@ -112,8 +120,8 @@ public class LevelActivity extends AppCompatActivity {
         imageButtonSwitzerlandUnlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageButtonSwitzerlandUnlock.setVisibility(View.INVISIBLE);
-                imageButtonSwitzerlandlLock.setVisibility(View.VISIBLE);
+//                imageButtonSwitzerlandUnlock.setVisibility(View.INVISIBLE);
+//                imageButtonSwitzerlandlLock.setVisibility(View.VISIBLE);
                 foodPicID = R.drawable.cheese;
                 obstaclePicID = R.drawable.shark;
                 neededScore = 2000;
@@ -121,14 +129,42 @@ public class LevelActivity extends AppCompatActivity {
                 heightImageDivider = 5;
                 obstacleAmount = 3;
                 foodAmount = 3;
+                countryName ="SWITZERLAND";
                 Level switzerlandLevel = new Level(obstacleAmount, foodAmount,
                         obstaclePicID, foodPicID, scorePerFood, neededScore,
-                        widthImageDivider, heightImageDivider);
+                        widthImageDivider, heightImageDivider,countryName);
                 Intent intent = new Intent(LevelActivity.this, GameActivity.class);
                 intent.putExtra("level", switzerlandLevel);
                 startActivity(intent);
             }
         });
+
     }
 
+    /**
+     * Reading the data returned from the sharedPreferences from GameView and opening relevant levels
+     */
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        SharedPreferences sharedPreferences=getSharedPreferences("countries",MODE_PRIVATE);
+
+        //checking if the user has passed the SWITZERLAND level and opening the FRANCE level
+        if(sharedPreferences.getBoolean("FRANCE",false)&&(sharedPreferences.getBoolean("SWITZERLAND",false))){
+            imageButtonFranceLock.setVisibility(View.INVISIBLE);
+            imageButtonFranceUnlock.setVisibility(View.VISIBLE);
+            imageButtonSwitzerlandlLock.setVisibility(View.INVISIBLE);
+            imageButtonSwitzerlandUnlock.setVisibility(View.VISIBLE);
+         //   if(!isFranceOpen)
+            imageButtonFranceUnlock.startAnimation(rotateAnim);
+        }
+        //checking if the user has passed the ISRAEL level and opening the SWITZERLAND level
+        else if(sharedPreferences.getBoolean("SWITZERLAND",false)){
+
+            imageButtonSwitzerlandlLock.setVisibility(View.INVISIBLE);
+            imageButtonSwitzerlandUnlock.setVisibility(View.VISIBLE);
+            imageButtonSwitzerlandUnlock.startAnimation(rotateAnim);
+        }
+
+    }
 }

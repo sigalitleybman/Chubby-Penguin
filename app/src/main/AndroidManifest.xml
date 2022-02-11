@@ -28,7 +28,8 @@
 
 <!--        <activity android:name=".PopupSettingsActivity" />-->
 
-        <activity android:name=".LevelActivity" />
+        <activity android:name=".LevelActivity"
+            android:screenOrientation="portrait" />
 
 
 

@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -61,6 +62,11 @@ public class GameView extends SurfaceView implements Runnable {
     private int neededScore;
     private int currentScore;
 
+    //SharedPreferences
+    private SharedPreferences sharedPreferences;
+
+
+
     public GameView(Context context, int screenX, int screenY, Level level) {
         super(context);
 
@@ -101,6 +107,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         random = new Random();
         //points = new TextView();
+
+        //creating sharedPreferences table for saving passed levels
+        sharedPreferences= context.getSharedPreferences("countries",Context.MODE_PRIVATE);
     }
 
     private void initListOfSharks() {
@@ -232,7 +241,20 @@ public class GameView extends SurfaceView implements Runnable {
                 currentScore += foodScore;
                 // hasCollided = true;
 
-                if (currentScore == neededScore) {
+                if (currentScore == 50) {
+                    //adding data to the SharedPreferences
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    //user passed the israel level
+                    if(level.getCountryName().equals("ISRAEL")){
+                        editor.putBoolean("SWITZERLAND",true);
+                        editor.commit();
+                    }
+                    //user passed the SWITZERLAND level
+                    else if(level.getCountryName().equals("SWITZERLAND")){
+                        editor.putBoolean("FRANCE",true);
+                        editor.commit();
+                    }
+
                     hasFinishedLevel = true;
                     //isGameOver = true;
                 }
@@ -296,6 +318,16 @@ public class GameView extends SurfaceView implements Runnable {
                         set1.playTogether(animator, animator2);
                         set1.start();
 
+                        // Adding onClickLisener to arrow, takes us back to the level activity
+                        arrow.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent((getContext()), LevelActivity.class);
+                                (getContext()).startActivity(intent);
+                                ((Activity) getContext()).finish();
+                            }
+                        });
+
                     }
                 });
 
@@ -310,6 +342,11 @@ public class GameView extends SurfaceView implements Runnable {
                 canvas.drawBitmap(penguin.getPenguinDiedBitMap(), penguin.x, penguin.y, paint);
                 getHolder().unlockCanvasAndPost(canvas);
                 penguin.resetCounter();
+
+                //Takes us back to the level activity
+                Intent intent = new Intent((getContext()), LevelActivity.class);
+                (getContext()).startActivity(intent);
+                ((Activity) getContext()).finish();
                 return;
             }
 
