@@ -64,6 +64,7 @@ public class GameView extends SurfaceView implements Runnable {
     private int foodScore;
     private int neededScore;
     private int currentScore;
+    //private Bitmap pause;
 
     //SharedPreferences
     private SharedPreferences sharedPreferences;
@@ -96,6 +97,16 @@ public class GameView extends SurfaceView implements Runnable {
 
         hearts = new Heart(getResources());
         neededScore = level.getNeededScore();
+
+       // pause =BitmapFactory.decodeResource(getResources(), R.drawable.pause);
+
+//        int width = pause.getWidth();
+//        int height = pause.getHeight();
+//        width /= 7;
+//        height /= 7;
+//        width = (int) (screenRatioX * width);
+//        height = (int) (screenRatioY * height);
+//        pause = Bitmap.createScaledBitmap(pause, width, height, false);
 
         paint = new Paint();
         paint.setTextSize(100);
@@ -432,8 +443,7 @@ public class GameView extends SurfaceView implements Runnable {
                 }
             }
             //the button that pauses the game
-            Bitmap pause =BitmapFactory.decodeResource(getResources(), R.drawable.pause);
-            canvas.drawBitmap(pause,1900,80,null);
+           //canvas.drawBitmap(pause,1800,80,null);
 
             canvas.drawBitmap(penguin.getWalkingPenguin(), penguin.x, penguin.y, paint);
 
@@ -492,4 +502,5 @@ public class GameView extends SurfaceView implements Runnable {
 
         return true;
     }
+
 }

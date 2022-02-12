@@ -47,8 +47,8 @@
             android:layout_alignParentEnd="true"
             android:layout_gravity="right"
             android:background="@null"
-            android:src="@drawable/settings"
-            app:tint="@color/black" />
+            android:src="@drawable/setting"
+            android:scaleType="fitXY"/>
 
 
         <ImageButton
@@ -61,7 +61,7 @@
             android:background="@null"
             android:onClick="showInfoPopup"
             android:src="@drawable/info"
-            app:tint="@color/black" />
+            android:scaleType="fitXY"/>
 
 
         <TextView

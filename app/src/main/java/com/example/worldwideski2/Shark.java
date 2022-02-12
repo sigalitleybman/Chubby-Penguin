@@ -14,13 +14,13 @@ public class Shark {
     Bitmap sharkBitmap;
 
     Shark(Resources res) {
-        sharkBitmap = BitmapFactory.decodeResource(res,R.drawable.fishnet);
+        sharkBitmap = BitmapFactory.decodeResource(res,R.drawable.shark);
 
         width = sharkBitmap.getWidth();
         height = sharkBitmap.getHeight();
 
-        width/=4;
-        height/=4;
+        width/=5;
+        height/=5;
 
         width = (int) (screenRatioX * width);
         height = (int) (screenRatioY * height);
