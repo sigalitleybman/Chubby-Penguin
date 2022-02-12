@@ -14,22 +14,30 @@
         android:layout_height="match_parent">
 
 
-        <ImageButton
-            android:id="@+id/image_button_volume_on"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@null"
-            android:src="@drawable/volume_up"
-            app:tint="@color/black" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/image_button_volume_on"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@null"-->
+<!--            android:src="@drawable/volume_up"-->
+<!--            app:tint="@color/black" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/image_button_volume_off"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@null"-->
+<!--            android:src="@drawable/volume_off"-->
+<!--            android:visibility="invisible"-->
+<!--            app:tint="@color/black" />-->
 
         <ImageButton
-            android:id="@+id/image_button_volume_off"
+            android:id="@+id/volume_imgBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@null"
-            android:src="@drawable/volume_off"
-            android:visibility="invisible"
-            app:tint="@color/black" />
+            android:scaleType="fitXY"
+            android:src="@drawable/volume_selector" />
 
         <ImageButton
             android:id="@+id/image_button_settings"
@@ -71,13 +79,13 @@
 
         <Button
             android:id="@+id/button_lets_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="60dp"
             android:layout_below="@+id/text_view_ski_title"
             android:layout_centerInParent="true"
             android:layout_marginTop="350dp"
             android:layout_marginBottom="50dp"
-            android:background="@drawable/btn_start_selector"
+            android:background="@drawable/start_game"
             android:text="@string/lets_start_button" />
     </RelativeLayout>
 </ScrollView>

@@ -28,6 +28,7 @@ public class MainActivity extends MusicalBase {
 
     private ImageButton volumeButtonOn;
     private ImageButton volumeButtonOff;
+    private ImageButton volumeImageButton;
     private ImageButton settingsButton;
     private ImageButton infoButton;
     private Dialog dialogInfo;
@@ -44,8 +45,9 @@ public class MainActivity extends MusicalBase {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
-        volumeButtonOn = findViewById(R.id.image_button_volume_on);
-        volumeButtonOff = findViewById(R.id.image_button_volume_off);
+//        volumeButtonOn = findViewById(R.id.image_button_volume_on);
+//        volumeButtonOff = findViewById(R.id.image_button_volume_off);
+        volumeImageButton = findViewById(R.id.volume_imgBtn);
         settingsButton = findViewById(R.id.image_button_settings);
         infoButton = findViewById(R.id.image_button_info);
         letsStartButton = findViewById(R.id.button_lets_start);
@@ -63,8 +65,8 @@ public class MainActivity extends MusicalBase {
         //startMusic();
         //musicPlayer.start();
 
-        changeToVolumeOff();
-        changeToVolumeOn();
+//        changeToVolumeOff();
+//        changeToVolumeOn();
 
 
         //create the button animation - change scaleX and scaleY
@@ -89,6 +91,41 @@ public class MainActivity extends MusicalBase {
                 startActivity(intent);
             }
         });
+
+
+
+        volumeImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(MusicManager.Instance().isPaused()){
+                    v.setSelected(false);
+                    MusicManager.Instance().play(true);
+                }else{
+                    v.setSelected(true);
+                    MusicManager.Instance().pause(true);
+                }
+
+            }
+        });
+        if(!MusicManager.Instance().isPaused()){
+            MusicManager.Instance().play(true);
+            volumeImageButton.setSelected(false);
+        }
+        else{
+            volumeImageButton.setSelected(true);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     /**
@@ -176,6 +213,7 @@ public class MainActivity extends MusicalBase {
             }
         });
     }
+
 
     /**
      * Listener for volumeButtonOn.

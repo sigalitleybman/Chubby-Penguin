@@ -57,11 +57,11 @@ public class LevelActivity extends MusicalBase {
         imageButtonFranceUnlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                foodPicID = R.drawable.croissant_france;
+                foodPicID = R.drawable.croissant;
                 obstaclePicID = R.drawable.shark;
                 neededScore = 1000;
-                widthImageDivider = 3;
-                heightImageDivider = 3;
+                widthImageDivider = 7;
+                heightImageDivider = 7;
                 obstacleAmount = 2;
                 foodAmount = 3;
                 countryName ="FRANCE";

@@ -66,4 +66,8 @@ public final class MusicManager {
     public void pausedByUser() {
         isPaused = true;
     }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
 }

@@ -431,6 +431,9 @@ public class GameView extends SurfaceView implements Runnable {
                     canvas.drawBitmap(hearts.heartImages[1], x, y, null);
                 }
             }
+            //the button that pauses the game
+            Bitmap pause =BitmapFactory.decodeResource(getResources(), R.drawable.pause);
+            canvas.drawBitmap(pause,1900,80,null);
 
             canvas.drawBitmap(penguin.getWalkingPenguin(), penguin.x, penguin.y, paint);
 

@@ -14,7 +14,7 @@ public class Shark {
     Bitmap sharkBitmap;
 
     Shark(Resources res) {
-        sharkBitmap = BitmapFactory.decodeResource(res,R.drawable.shark);
+        sharkBitmap = BitmapFactory.decodeResource(res,R.drawable.fishnet);
 
         width = sharkBitmap.getWidth();
         height = sharkBitmap.getHeight();
