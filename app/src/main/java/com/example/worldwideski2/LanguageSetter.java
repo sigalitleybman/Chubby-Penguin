@@ -7,6 +7,9 @@ import android.content.res.Resources;
 
 import java.util.Locale;
 
+/**
+ * LanguageSetter is responsible for setting the language.
+ */
 public class LanguageSetter {
     private Context context;
     private SharedPreferences sharedPreferences;
@@ -15,7 +18,6 @@ public class LanguageSetter {
     {
         setContext(context);
         setSharedPreferences(context);
-
     }
 
     private void setContext(Context context) {
@@ -36,11 +38,6 @@ public class LanguageSetter {
         editor.putString("lang",code);
         editor.commit();
     }
-
-//    public String getLang()
-//    {
-//        return sharedPreferences.getString("lang","en");
-//    }
 
     public void updateResource(String code)
     {

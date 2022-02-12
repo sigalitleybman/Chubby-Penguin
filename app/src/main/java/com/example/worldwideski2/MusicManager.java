@@ -13,15 +13,19 @@ public final class MusicManager {
     private boolean isPaused = false;
     private MediaPlayer mediaPlayer;
 
-    //Ctor
+    /**
+     * In Singleton class the constructor must be private.
+     */
     private MusicManager() {}
 
     /**
-     * This method.......
-     * @return Using here a double check lock inorder to prevent a queue of threads,
+     * This method ensures that there is going to be only one instance of the class.
+     * Using here a double check lock inorder to prevent a queue of threads,
      * actually it'll only be good for the first run, the next time when the thread would see a lock he wouldn't have
      * to wait so long and maybe even for nothing.
      * So, to prevent such case we've used a double check lock.
+     *
+     * @return the single instance of MusicManager.
      */
     public static MusicManager Instance() {
         if (instance == null) {
@@ -43,7 +47,6 @@ public final class MusicManager {
     public void initializeMusic(Context context, int musicID) {
         mediaPlayer = MediaPlayer.create(context, musicID);
         mediaPlayer.setLooping(true);
-//        mediaPlayer.setVolume(100, 100);
         play(false);
     }
 
@@ -61,10 +64,6 @@ public final class MusicManager {
         if (byUser) //check if the music pause by user or pause because we move to the next page
             isPaused = true;
         this.mediaPlayer.pause();
-    }
-
-    public void pausedByUser() {
-        isPaused = true;
     }
 
     public boolean isPaused() {

@@ -9,6 +9,10 @@ import android.widget.SeekBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * PopUpSettingsActivity represents a pop up window that has different attributes,
+ * language of the app and seekbar for controlling the music.
+ */
 public class PopupSettingsActivity extends MusicalBase {
 
     private SeekBar volumeSeekbar;

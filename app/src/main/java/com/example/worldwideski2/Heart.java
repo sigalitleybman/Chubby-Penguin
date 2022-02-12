@@ -7,6 +7,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+/**
+ * Heart class represents the hearts that are going to be presented in the right side of the app.
+ */
 public class Heart {
     int width;
     int height;
@@ -29,9 +32,5 @@ public class Heart {
 
         heartImages[0] = Bitmap.createScaledBitmap(heartImages[0], width, height, false);
         heartImages[1] = Bitmap.createScaledBitmap(heartImages[1], width, height, false);
-    }
-
-    public Bitmap[] getHeartImagesArray() {
-        return heartImages;
     }
 }

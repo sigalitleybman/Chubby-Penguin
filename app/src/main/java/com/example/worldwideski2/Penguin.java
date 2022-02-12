@@ -10,6 +10,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
 
+/**
+ * Class Penguin represents our main character , it has all the images of the penguin,
+ * that will create the cycled animation.
+ */
 public class Penguin {
     boolean isGoingUp = false;
     int x;
@@ -17,13 +21,11 @@ public class Penguin {
     int width;
     int height;
     final Bitmap penguinWalking[] = new Bitmap[4];
-//    final Bitmap penguinDied[] = new Bitmap[3];
+    int penguinWalkingCounter = -1;
+    int penguinDeadCounter = -1;
     Bitmap penguinCollided;
     Bitmap penguinDied;
     Bitmap happyPenguinWhenFinishedLevel;
-    int penguinWalkingCounter = -1;
-    int penguinDeadCounter = -1;
-
 
     Penguin(int screenY, Resources res) {
         penguinWalking[0] = BitmapFactory.decodeResource(res, R.drawable.walking_1);
@@ -60,24 +62,9 @@ public class Penguin {
         x = (int) (64 * screenRatioX);
     }
 
-    /**
-     * here we scale the walkingPenguin bitmaps to the desired size
-     */
-    private void setScaledBitmap() {
-        for (Bitmap bitmap : penguinWalking) {
-            bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
-        }
-    }
-
-    public boolean isGoingUp() {
-        return isGoingUp;
-    }
-
     public void setGoingUp(boolean goingUp) {
         isGoingUp = goingUp;
     }
-
-
 
     public int getWidth() {
         return width;
@@ -95,10 +82,6 @@ public class Penguin {
         }
 
         return penguinWalking[penguinWalkingCounter];
-    }
-
-    Bitmap getPenguinCollidedBitmap() {
-        return penguinCollided;
     }
 
     Bitmap getPenguinDiedBitMap() {

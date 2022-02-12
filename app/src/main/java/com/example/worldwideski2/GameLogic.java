@@ -8,8 +8,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -20,25 +18,18 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
- * This class has all the logic of the app, it runs on a main thread which has
- *
+ * This class has all the logic of the app, it runs on a thread.
  */
 public class GameLogic extends SurfaceView implements Runnable {
-    public static final int BACKGROUND_MOVEMENT = 10;
     private Context context;
     private Thread thread;
     private boolean isPlaying = false;
@@ -68,11 +59,9 @@ public class GameLogic extends SurfaceView implements Runnable {
     private int foodScore;
     private int neededScore;
     private int currentScore;
-    //private Bitmap pause;
 
     //SharedPreferences
     private SharedPreferences sharedPreferences;
-
 
 
     public GameLogic(Context context, int screenX, int screenY, Level level) {
@@ -89,8 +78,6 @@ public class GameLogic extends SurfaceView implements Runnable {
         screenRatioY = 1080f / screenY;
 
 
-        //        currentScore + "/" + needScore
-        //        100 /1000
         backgroundGame1 = new BackgroundGame(screenX, screenY, getResources());
         backgroundGame2 = new BackgroundGame(screenX, screenY, getResources());
 
@@ -102,29 +89,20 @@ public class GameLogic extends SurfaceView implements Runnable {
         hearts = new Heart(getResources());
         neededScore = level.getNeededScore();
 
-       // pause =BitmapFactory.decodeResource(getResources(), R.drawable.pause);
-
-//        int width = pause.getWidth();
-//        int height = pause.getHeight();
-//        width /= 7;
-//        height /= 7;
-//        width = (int) (screenRatioX * width);
-//        height = (int) (screenRatioY * height);
-//        pause = Bitmap.createScaledBitmap(pause, width, height, false);
-
         paint = new Paint();
         paint.setTextSize(100);
         paint.setColor(Color.WHITE);
 
-
+        //initializing the current level of the game.
         initLevel();
 
+        //initializing the list of foods.
         initListOfFoods();
 
+        //initializing the list of sharks.
         initListOfSharks();
 
         random = new Random();
-        //points = new TextView();
 
         //creating sharedPreferences table for saving passed levels
         sharedPreferences= context.getSharedPreferences("countries",Context.MODE_PRIVATE);
@@ -148,16 +126,20 @@ public class GameLogic extends SurfaceView implements Runnable {
         currentScore = 0;
     }
 
+    /**
+     * the game runs because of this while loop which is not going to be end up until
+     * the boolean is true.
+     */
     @Override
     public void run() {
         while (isPlaying) {
-            update();
-            draw();
+            updateTheGameView();
+            drawTheUpdatedGameView();
             sleep();
         }
     }
 
-    private void update() {
+    private void updateTheGameView() {
         backgroundGame1.x -= 15 * screenRatioX;
         backgroundGame2.x -= 15 * screenRatioX;
 
@@ -187,11 +169,7 @@ public class GameLogic extends SurfaceView implements Runnable {
         for (Shark shark : sharks) {
             shark.x -= shark.speed;
             if (shark.x + shark.width < 0) {
-                // int bound = (int) (30 * screenRatioX);
-                //                shark.speed=random.nextInt(bound);
-                //                if(shark.speed<10*screenRatioX){
-                //                    shark.speed= (int) (20*screenRatioX);
-                //                }
+
                 shark.speed = (int) (15 * screenRatioX);
 
                 //locating the shark on the x axis.
@@ -200,7 +178,7 @@ public class GameLogic extends SurfaceView implements Runnable {
                 // locating the shark on the y Axis randomly.
                 try {
                     // Made upper and lower bounds for making a range to random, in order to fit
-                    //the shark picture in the screen.
+                    // the shark picture in the screen.
                     int upperBound = screenY - shark.height;
                     int lowerBound = shark.height / 2;
 
@@ -229,11 +207,7 @@ public class GameLogic extends SurfaceView implements Runnable {
         for (Food food : listOfFoods) {
             food.x -= food.speed;
             if (food.x + food.width < 0) {
-                // int bound = (int) (30 * screenRatioX);
-                //                shark.speed=random.nextInt(bound);
-                //                if(shark.speed<10*screenRatioX){
-                //                    shark.speed= (int) (20*screenRatioX);
-                //                }
+
                 food.speed = (int) (15 * screenRatioX);
 
                 //locating the shark on the x axis.
@@ -281,7 +255,7 @@ public class GameLogic extends SurfaceView implements Runnable {
         }
     }
 
-    private void draw() {
+    private void drawTheUpdatedGameView() {
         if (getHolder().getSurface().isValid()) {
 
             //lock the canvas to draw the backgrounds again
@@ -297,6 +271,7 @@ public class GameLogic extends SurfaceView implements Runnable {
                 canvas.drawBitmap(food.getFoodBitmap(), food.x, food.y, paint);
             }
 
+            //drawing the score on the the canvas.
             canvas.drawText(currentScore + "/" + neededScore, screenX / 2.5f, 164, paint);
 
 
@@ -366,12 +341,10 @@ public class GameLogic extends SurfaceView implements Runnable {
                     }
                 });
 
-                //TODO: Solve this problem.
-                //TODO: move all that code to draw and add hasFinishedTheLevel boolean.
                 return;
             }
 
-         //    checking if the game was over.
+            //checking if the game was over.
             if (isGameOver) {
                 isPlaying = false;
                 canvas.drawBitmap(penguin.getPenguinDiedBitMap(), penguin.x, penguin.y, paint);
@@ -416,8 +389,7 @@ public class GameLogic extends SurfaceView implements Runnable {
                         sadPenguin.startAnimation(swipe_up);
 
 
-
-                        // Adding onClickLisener to arrow, takes us back to the level activity
+                        // Adding onClickListener to arrow, takes us back to the level activity
                         arrow.setOnClickListener(new OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -429,14 +401,14 @@ public class GameLogic extends SurfaceView implements Runnable {
 
                     }
                 });
-                return;
 
+                return;
             }
 
 
             //drawing the current amount of red and white lives.
             for (int i = 0; i < 3; i++) {
-                int x = (int) (200 + hearts.heartImages[0].getWidth() * 1.1 * i);
+                int x = (int) (1700 + hearts.heartImages[0].getWidth() * 1.1 * i);
                 int y = 80;
 
                 if (i < lifeCounter) {
@@ -446,8 +418,7 @@ public class GameLogic extends SurfaceView implements Runnable {
                     canvas.drawBitmap(hearts.heartImages[1], x, y, null);
                 }
             }
-            //the button that pauses the game
-           //canvas.drawBitmap(pause,1800,80,null);
+
 
             canvas.drawBitmap(penguin.getWalkingPenguin(), penguin.x, penguin.y, paint);
 
@@ -463,6 +434,9 @@ public class GameLogic extends SurfaceView implements Runnable {
         }
     }
 
+    /**
+     * Making the game to "Sleep"
+     */
     private void sleep() {
         try {
             Thread.sleep(25);
@@ -472,12 +446,18 @@ public class GameLogic extends SurfaceView implements Runnable {
         }
     }
 
+    /**
+     * Resuming the game.
+     */
     public void resume() {
         isPlaying = true;
         thread = new Thread(this);
         thread.start();
     }
 
+    /**
+     * Pausing the game.
+     */
     public void pause() {
         try {
             isPlaying = false;
@@ -488,6 +468,10 @@ public class GameLogic extends SurfaceView implements Runnable {
         }
     }
 
+    /**
+     * @param event - the given event that was invoked.
+     * @return the boolean indicates weather the penguin is going up or down.
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {

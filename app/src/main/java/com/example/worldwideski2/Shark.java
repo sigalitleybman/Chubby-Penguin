@@ -8,8 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
+/**
+ * The enemy of out character.
+ */
 public class Shark {
-    public int speed=20;
+    public int speed = 20;
     int x,y,width,height;
     Bitmap sharkBitmap;
 
@@ -38,5 +41,4 @@ public class Shark {
     Rect getCollisionShape(){
         return new Rect(x, y, x + width,y + height);
     }
-
 }

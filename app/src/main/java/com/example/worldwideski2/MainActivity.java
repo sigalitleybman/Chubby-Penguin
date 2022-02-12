@@ -3,6 +3,7 @@ package com.example.worldwideski2;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,6 +29,10 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+/**
+ * MainActivity builds the main page of our app, it also extends from MusicalBase since
+ * a music must be played within from here.
+ */
 public class MainActivity extends MusicalBase {
 
     private ImageButton volumeButtonOn;
@@ -36,12 +41,12 @@ public class MainActivity extends MusicalBase {
     private ImageButton settingsButton;
     private ImageButton infoButton;
     private Dialog dialogInfo;
-//    private MediaPlayer musicPlayer;
     private int flowMusic;
     private Button letsStartButton;
     private LanguageSetter language;
 
 
+    @SuppressLint("CutPasteId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +54,7 @@ public class MainActivity extends MusicalBase {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
-//        volumeButtonOn = findViewById(R.id.image_button_volume_on);
-//        volumeButtonOff = findViewById(R.id.image_button_volume_off);
+
         volumeImageButton = findViewById(R.id.volume_image_button);
         settingsButton = findViewById(R.id.image_button_settings);
         infoButton = findViewById(R.id.image_button_info);
@@ -60,17 +64,9 @@ public class MainActivity extends MusicalBase {
         //starting the music
         MusicManager.Instance().initializeMusic(this, flowMusic);
 
-
         dialogInfo = new Dialog(this);
 
         language = new LanguageSetter(this);
-
-
-        //startMusic();
-        //musicPlayer.start();
-
-//        changeToVolumeOff();
-//        changeToVolumeOn();
 
 
         //create the button animation - change scaleX and scaleY
@@ -118,14 +114,6 @@ public class MainActivity extends MusicalBase {
         else{
             volumeImageButton.setSelected(true);
         }
-
-
-
-
-
-
-
-
     }
 
     /**
@@ -148,20 +136,14 @@ public class MainActivity extends MusicalBase {
         RadioButton hebrewRadioButton = dialog.findViewById(R.id.radio_button_selected_hebrew);
         RadioButton englishRadioButton = dialog.findViewById(R.id.radio_button_selected_english);
 
-        hebrewRadioButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                language.updateResource("iw");
-                recreate();
-            }
+        hebrewRadioButton.setOnClickListener(view -> {
+            language.updateResource("iw");
+            recreate();
         });
 
-        englishRadioButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                language.updateResource("en");
-                recreate();
-            }
+        englishRadioButton.setOnClickListener(view -> {
+            language.updateResource("en");
+            recreate();
         });
 
 
@@ -198,68 +180,11 @@ public class MainActivity extends MusicalBase {
     }
 
     /**
-     * Listener for volumeButtonOff.
-     * First we set volumeButtonOff to INVISIBLE and then volumeButtonOn we set to VISIBLE.
-     */
-    private void changeToVolumeOn() {
-        volumeButtonOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                startMusic();
-                onStart();
-                volumeButtonOff.setVisibility(View.INVISIBLE);
-                volumeButtonOn.setVisibility(View.VISIBLE);
-            }
-        });
-    }
-
-
-    /**
-     * Listener for volumeButtonOn.
-     * First we set volumeButtonOn to INVISIBLE and then volumeButtonOff we set to VISIBLE.
-     */
-    private void changeToVolumeOff() {
-        volumeButtonOn.setOnClickListener(v -> {
-            onPause();
-//            stopMusic();
-            volumeButtonOn.setVisibility(View.INVISIBLE);
-            volumeButtonOff.setVisibility(View.VISIBLE);
-        });
-    }
-
-    /**
-     * This method is responsible for starting the music , while saving resources,
-     * if the musicPlayer isn't allocated , it gets allocated.
-     * then if the song is over, we release the resources.
-     */
-//    private void startMusic() {
-//        if (musicPlayer == null) {
-//            musicPlayer = MediaPlayer.create(this, R.raw.audio);
-//
-//            musicPlayer.setOnCompletionListener(mp -> startMusic());
-//        }
-//
-//
-//        musicPlayer.start();
-//    }
-
-    /**
-     * Here we stop the music by realising the resources.
-     */
-//    private void stopMusic() {
-//        if (musicPlayer != null) {
-//            musicPlayer.release();
-//            musicPlayer = null;
-//        }
-//    }
-
-    /**
      * This method responsible for stopping the audio when leaving the app.
      */
     @Override
     protected void onStop() {
         super.onStop();
-        //stopMusic();
     }
 
     /**
@@ -272,20 +197,6 @@ public class MainActivity extends MusicalBase {
         dialogInfo.setContentView(R.layout.game_explanation);
         dialogInfo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogInfo.show();
-//      dialogInfo.setContentView(R.layout.activity_info);
-//      dialogInfo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//      dialogInfo.show();
-
-
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        LayoutInflater inflater = (this).getLayoutInflater();
-//        View viewInflater = inflater.inflate(R.layout.game_explanation, null);
-//        builder.setView(viewInflater);
-//        AlertDialog infoDialog = builder.create();
-//
-//        infoDialog.show();
-
-
 
         // Finger Animation.
         ImageView finger = dialogInfo.findViewById(R.id.image_view_finger_instructions);
@@ -305,13 +216,11 @@ public class MainActivity extends MusicalBase {
         set1.playTogether(animator, animator2);
         set1.start();
 
-
-        // Penguin Jumping.
+        //Penguin Jumping.
         ImageView instructionsPenguin = dialogInfo.findViewById(R.id.image_view_penguin_instructions);
         Animation swipe_up = AnimationUtils.loadAnimation(MainActivity.this, R.anim.penguin_anim_instructions);
         swipe_up.setRepeatMode(Animation.INFINITE);
         instructionsPenguin.startAnimation(swipe_up);
-
 
         //Shark Moving
         ImageView shark = dialogInfo.findViewById(R.id.shark_instructions);
@@ -320,5 +229,4 @@ public class MainActivity extends MusicalBase {
         shark_slide.setRepeatMode(Animation.INFINITE);
         shark.startAnimation(shark_slide);
     }
-
 }
