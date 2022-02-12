@@ -33,7 +33,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class GameView extends SurfaceView implements Runnable {
+/**
+ * This class has all the logic of the app, it runs on a main thread which has
+ *
+ */
+public class GameLogic extends SurfaceView implements Runnable {
     public static final int BACKGROUND_MOVEMENT = 10;
     private Context context;
     private Thread thread;
@@ -71,7 +75,7 @@ public class GameView extends SurfaceView implements Runnable {
 
 
 
-    public GameView(Context context, int screenX, int screenY, Level level) {
+    public GameLogic(Context context, int screenX, int screenY, Level level) {
         super(context);
 
         //the context is the gameActivity
@@ -255,7 +259,7 @@ public class GameView extends SurfaceView implements Runnable {
                 currentScore += foodScore;
                 // hasCollided = true;
 
-                if (currentScore == 50) {
+                if (currentScore == neededScore) {
                     //adding data to the SharedPreferences
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     //user passed the israel level

@@ -10,14 +10,18 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.AudioManager;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -47,7 +51,7 @@ public class MainActivity extends MusicalBase {
         setContentView(R.layout.activity_main);
 //        volumeButtonOn = findViewById(R.id.image_button_volume_on);
 //        volumeButtonOff = findViewById(R.id.image_button_volume_off);
-        volumeImageButton = findViewById(R.id.volume_imgBtn);
+        volumeImageButton = findViewById(R.id.volume_image_button);
         settingsButton = findViewById(R.id.image_button_settings);
         infoButton = findViewById(R.id.image_button_info);
         letsStartButton = findViewById(R.id.button_lets_start);
@@ -122,10 +126,6 @@ public class MainActivity extends MusicalBase {
 
 
 
-
-
-
-
     }
 
     /**
@@ -163,7 +163,6 @@ public class MainActivity extends MusicalBase {
                 recreate();
             }
         });
-
 
 
         // managing the sound of the app via the seek bar.
@@ -269,9 +268,57 @@ public class MainActivity extends MusicalBase {
      * @param view - the MainActivity on which we display the dialog settings popup.
      */
     public void showInfoPopup(View view) {
-        dialogInfo.setContentView(R.layout.activity_info);
+        Dialog dialogInfo = new Dialog(MainActivity.this);
+        dialogInfo.setContentView(R.layout.game_explanation);
         dialogInfo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogInfo.show();
+//      dialogInfo.setContentView(R.layout.activity_info);
+//      dialogInfo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//      dialogInfo.show();
+
+
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        LayoutInflater inflater = (this).getLayoutInflater();
+//        View viewInflater = inflater.inflate(R.layout.game_explanation, null);
+//        builder.setView(viewInflater);
+//        AlertDialog infoDialog = builder.create();
+//
+//        infoDialog.show();
+
+
+
+        // Finger Animation.
+        ImageView finger = dialogInfo.findViewById(R.id.image_view_finger_instructions);
+
+        ObjectAnimator animator = ObjectAnimator.
+                ofFloat(finger, "scaleX", ((float) (1.15))).setDuration(250);
+        ObjectAnimator animator2 = ObjectAnimator.
+                ofFloat(finger, "scaleY", ((float) (1.15))).setDuration(250);
+
+        animator.setRepeatMode(ValueAnimator.REVERSE);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator2.setRepeatMode(ValueAnimator.REVERSE);
+        animator2.setRepeatCount(ValueAnimator.INFINITE);
+
+        AnimatorSet set1 = new AnimatorSet();
+
+        set1.playTogether(animator, animator2);
+        set1.start();
+
+
+        // Penguin Jumping.
+        ImageView instructionsPenguin = dialogInfo.findViewById(R.id.image_view_penguin_instructions);
+        Animation swipe_up = AnimationUtils.loadAnimation(MainActivity.this, R.anim.penguin_anim_instructions);
+        swipe_up.setRepeatMode(Animation.INFINITE);
+        instructionsPenguin.startAnimation(swipe_up);
+
+
+        //Shark Moving
+        ImageView shark = dialogInfo.findViewById(R.id.shark_instructions);
+
+        Animation shark_slide = AnimationUtils.loadAnimation(MainActivity.this, R.anim.swipe_left_shark);
+        shark_slide.setRepeatMode(Animation.INFINITE);
+        shark.startAnimation(shark_slide);
     }
 
 }

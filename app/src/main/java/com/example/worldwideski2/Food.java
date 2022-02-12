@@ -1,13 +1,16 @@
 package com.example.worldwideski2;
 
-import static com.example.worldwideski2.GameView.screenRatioX;
-import static com.example.worldwideski2.GameView.screenRatioY;
+import static com.example.worldwideski2.GameLogic.screenRatioX;
+import static com.example.worldwideski2.GameLogic.screenRatioY;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 
+/**
+ * Food class represents the goods that out character is going to collect
+ */
 public class Food {
     public int speed = 10;
     int x,y,height,width;
@@ -19,8 +22,6 @@ public class Food {
 
         width = foodBitmap.getWidth();
         height = foodBitmap.getHeight();
-
-        //TODO: send here the dividing param's
 
         width /= widthDivider;
         height /= heightDivider;

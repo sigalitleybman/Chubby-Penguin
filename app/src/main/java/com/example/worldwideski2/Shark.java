@@ -1,7 +1,7 @@
 package com.example.worldwideski2;
 
-import static com.example.worldwideski2.GameView.screenRatioX;
-import static com.example.worldwideski2.GameView.screenRatioY;
+import static com.example.worldwideski2.GameLogic.screenRatioX;
+import static com.example.worldwideski2.GameLogic.screenRatioY;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

@@ -2,12 +2,15 @@ package com.example.worldwideski2;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LevelActivity extends MusicalBase {
@@ -29,7 +32,7 @@ public class LevelActivity extends MusicalBase {
     private int foodAmount;
     private String countryName;
     private Animation rotateAnim;
-
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,16 @@ public class LevelActivity extends MusicalBase {
         rotateAnim = AnimationUtils.loadAnimation(this,R.anim.rotate);
 
 
+
+//        actionBar = getSupportActionBar();
+//
+//        // Define ColorDrawable object and parse color
+//        // using parseColor method
+//        // with color hash code as its parameter
+//        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#0F9D58"));
+//
+//        // Set BackgroundDrawable
+//        actionBar.setBackgroundDrawable(colorDrawable);
 //        //France
 //        imageButtonFranceLock.setOnClickListener(new View.OnClickListener() {
 //            @Override

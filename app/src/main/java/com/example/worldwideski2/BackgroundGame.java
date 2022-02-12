@@ -4,38 +4,16 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+/**
+ * This class is responsible for generating the background
+ */
 public class BackgroundGame {
     int x = 0;
     int y = 0;
     Bitmap background;
 
-    BackgroundGame (int screenX, int screenY , Resources res){
-        //create the background bitmap
+    BackgroundGame (int screenX, int screenY , Resources res) {
         background = BitmapFactory.decodeResource(res, R.drawable.snow_map);
         background = Bitmap.createScaledBitmap(background, screenX, screenY, false);
     }
-//
-//    public int getX() {
-//        return x;
-//    }
-//
-//    public void setY(int y) {
-//        this.y = y;
-//    }
-//
-//    public void setX(int x) {
-//        this.x = x;
-//    }
-//
-//    public int getY() {
-//        return y;
-//    }
-//
-//    public Bitmap getBackground() {
-//        return background;
-//    }
-//
-//    public void setBackground(Bitmap background) {
-//        this.background = background;
-//    }
 }

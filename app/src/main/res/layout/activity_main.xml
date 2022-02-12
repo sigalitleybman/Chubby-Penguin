@@ -32,7 +32,7 @@
 <!--            app:tint="@color/black" />-->
 
         <ImageButton
-            android:id="@+id/volume_imgBtn"
+            android:id="@+id/volume_image_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@null"
@@ -47,8 +47,8 @@
             android:layout_alignParentEnd="true"
             android:layout_gravity="right"
             android:background="@null"
-            android:src="@drawable/setting"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:src="@drawable/setting" />
 
 
         <ImageButton
@@ -60,8 +60,8 @@
             android:layout_gravity="end"
             android:background="@null"
             android:onClick="showInfoPopup"
-            android:src="@drawable/info"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:src="@drawable/info" />
 
 
         <TextView
