@@ -301,6 +301,16 @@ public class GameView extends SurfaceView implements Runnable {
                         builder.setView(viewInflater);
                         AlertDialog finishDialog = builder.create();
                         finishDialog.setCancelable(false);
+                        TextView textFinish = viewInflater.findViewById(R.id.text_view_next_level);
+                        if(level.getCountryName().equals("ISRAEL")){
+                            textFinish.setText(R.string.finished_israel_level);
+                        }
+                        else if(level.getCountryName().equals("SWITZERLAND")){
+                            textFinish.setText(R.string.finished_switzerland_level);
+                        }
+                        else {
+                            textFinish.setText(R.string.finished_game);
+                        }
                         finishDialog.show();
 
                         // creating the arrow animation.
@@ -353,17 +363,65 @@ public class GameView extends SurfaceView implements Runnable {
                 getHolder().unlockCanvasAndPost(canvas);
                 penguin.resetCounter();
 
-                //Takes us back to the level activity
-                Intent intent = new Intent((getContext()), LevelActivity.class);
-                (getContext()).startActivity(intent);
-                ((Activity) getContext()).finish();
+
+                ((Activity) getContext()).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //display the game over pop-up dialog.
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
+                        View viewInflater = inflater.inflate(R.layout.pop_up_lost_level, null);
+                        builder.setView(viewInflater);
+                        AlertDialog finishDialog = builder.create();
+                        finishDialog.setCancelable(false);
+                        finishDialog.show();
+
+                        // creating the arrow animation.
+                        ImageButton arrow = viewInflater.findViewById(R.id.image_button_arrow);
+
+                        ObjectAnimator animator = ObjectAnimator.
+                                ofFloat(arrow, "scaleX", ((float) (1.15))).setDuration(250);
+                        ObjectAnimator animator2 = ObjectAnimator.
+                                ofFloat(arrow, "scaleY", ((float) (1.15))).setDuration(250);
+
+                        animator.setRepeatMode(ValueAnimator.REVERSE);
+                        animator.setRepeatCount(ValueAnimator.INFINITE);
+                        animator2.setRepeatMode(ValueAnimator.REVERSE);
+                        animator2.setRepeatCount(ValueAnimator.INFINITE);
+
+                        AnimatorSet set1 = new AnimatorSet();
+
+                        set1.playTogether(animator, animator2);
+                        set1.start();
+
+                        //creating the penguin animation
+                        ImageView sadPenguin = viewInflater.findViewById(R.id.lost_penguin);
+                        Animation swipe_up = AnimationUtils.loadAnimation(getContext(), R.anim.swipe_up);
+                        swipe_up.setRepeatMode(Animation.INFINITE);
+                        sadPenguin.startAnimation(swipe_up);
+
+
+
+                        // Adding onClickLisener to arrow, takes us back to the level activity
+                        arrow.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent((getContext()), LevelActivity.class);
+                                (getContext()).startActivity(intent);
+                                ((Activity) getContext()).finish();
+                            }
+                        });
+
+                    }
+                });
                 return;
+
             }
 
 
             //drawing the current amount of red and white lives.
             for (int i = 0; i < 3; i++) {
-                int x = (int) (1700 + hearts.heartImages[0].getWidth() * 1.1 * i);
+                int x = (int) (200 + hearts.heartImages[0].getWidth() * 1.1 * i);
                 int y = 80;
 
                 if (i < lifeCounter) {

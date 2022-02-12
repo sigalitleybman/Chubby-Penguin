@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="@string/finished_level"
+        android:text="@string/lost_level"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -24,18 +24,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_view_congratulations"
+        android:text="@string/try_again"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
     <ImageView
-        android:id="@+id/winning_penguin"
+        android:id="@+id/lost_penguin"
         android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_height="120dp"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:src="@drawable/winning_penguin" />
+        android:src="@drawable/sad_penguin" />
 
     <ImageButton
         android:id="@+id/image_button_arrow"

@@ -29,8 +29,6 @@ public class LevelActivity extends MusicalBase {
     private int foodAmount;
     private String countryName;
     private Animation rotateAnim;
-    Boolean isSwissOpen = false;
-    Boolean isFranceOpen = false;
 
 
     @Override
@@ -127,7 +125,7 @@ public class LevelActivity extends MusicalBase {
                 neededScore = 2000;
                 widthImageDivider = 5;
                 heightImageDivider = 5;
-                obstacleAmount = 3;
+                obstacleAmount = 2;
                 foodAmount = 3;
                 countryName ="SWITZERLAND";
                 Level switzerlandLevel = new Level(obstacleAmount, foodAmount,
@@ -153,10 +151,10 @@ public class LevelActivity extends MusicalBase {
         if(sharedPreferences.getBoolean("FRANCE",false)&&(sharedPreferences.getBoolean("SWITZERLAND",false))){
             imageButtonFranceLock.setVisibility(View.INVISIBLE);
             imageButtonFranceUnlock.setVisibility(View.VISIBLE);
+            imageButtonFranceUnlock.startAnimation(rotateAnim);
             imageButtonSwitzerlandlLock.setVisibility(View.INVISIBLE);
             imageButtonSwitzerlandUnlock.setVisibility(View.VISIBLE);
-         //   if(!isFranceOpen)
-            imageButtonFranceUnlock.startAnimation(rotateAnim);
+
         }
         //checking if the user has passed the ISRAEL level and opening the SWITZERLAND level
         else if(sharedPreferences.getBoolean("SWITZERLAND",false)){
