@@ -18,8 +18,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -317,6 +320,13 @@ public class GameView extends SurfaceView implements Runnable {
 
                         set1.playTogether(animator, animator2);
                         set1.start();
+                        //creating the penguin animation
+                        ImageView winningPenguin = viewInflater.findViewById(R.id.winning_penguin);
+                        Animation swipe_up = AnimationUtils.loadAnimation(getContext(), R.anim.swipe_up);
+                        swipe_up.setRepeatMode(Animation.INFINITE);
+                        winningPenguin.startAnimation(swipe_up);
+
+
 
                         // Adding onClickLisener to arrow, takes us back to the level activity
                         arrow.setOnClickListener(new OnClickListener() {
