@@ -47,7 +47,7 @@ public class LevelActivity extends MusicalBase {
             public void onClick(View v) {
                 foodPicID = R.drawable.croissant;
                 obstaclePicID = R.drawable.shark;
-                neededScore = 1000;
+                neededScore = 2000;
                 widthImageDivider = 7;
                 heightImageDivider = 7;
                 obstacleAmount = 2;
@@ -91,17 +91,11 @@ public class LevelActivity extends MusicalBase {
             }
         });
 
-        //switzerland
-        imageButtonSwitzerlandLock.setOnClickListener(v -> {
-            imageButtonSwitzerlandLock.setVisibility(View.INVISIBLE);
-            imageButtonSwitzerlandUnlock.setVisibility(View.VISIBLE);
-
-        });
 
         imageButtonSwitzerlandUnlock.setOnClickListener(v -> {
             foodPicID = R.drawable.cheese;
             obstaclePicID = R.drawable.shark;
-            neededScore = 2000;
+            neededScore = 1000;
             widthImageDivider = 5;
             heightImageDivider = 5;
             obstacleAmount = 2;
