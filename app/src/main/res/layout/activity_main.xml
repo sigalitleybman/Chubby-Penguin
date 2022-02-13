@@ -4,8 +4,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_screen"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/main_screen">
 
 
     <RelativeLayout
@@ -14,27 +13,11 @@
         android:layout_height="match_parent">
 
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/image_button_volume_on"-->
-<!--            android:layout_width="50dp"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:background="@null"-->
-<!--            android:src="@drawable/volume_up"-->
-<!--            app:tint="@color/black" />-->
-
-<!--        <ImageButton-->
-<!--            android:id="@+id/image_button_volume_off"-->
-<!--            android:layout_width="50dp"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:background="@null"-->
-<!--            android:src="@drawable/volume_off"-->
-<!--            android:visibility="invisible"-->
-<!--            app:tint="@color/black" />-->
-
         <ImageButton
             android:id="@+id/volume_image_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:background="@null"
             android:scaleType="fitXY"
             android:src="@drawable/volume_selector" />
@@ -43,25 +26,27 @@
             android:id="@+id/image_button_settings"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_gravity="right"
             android:background="@null"
             android:scaleType="fitXY"
-            android:src="@drawable/setting" />
+            android:src="@drawable/setting"/>
 
 
         <ImageButton
             android:id="@+id/image_button_info"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:layout_below="@+id/image_button_settings"
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
             android:background="@null"
             android:onClick="showInfoPopup"
             android:scaleType="fitXY"
-            android:src="@drawable/info" />
+            android:src="@drawable/info"/>
 
 
         <TextView
@@ -75,7 +60,6 @@
             android:text="@string/main_screen_title"
             android:textColor="@color/black"
             android:textSize="45sp" />
-<!--        android:fontFamily="@font/snow_font"-->
 
         <Button
             android:id="@+id/button_lets_start"
@@ -83,8 +67,8 @@
             android:layout_height="60dp"
             android:layout_below="@+id/text_view_ski_title"
             android:layout_centerInParent="true"
-            android:layout_marginTop="350dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginTop="380dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/start_game"
             android:text="@string/lets_start_button" />
     </RelativeLayout>

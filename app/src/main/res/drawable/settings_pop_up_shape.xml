@@ -4,7 +4,7 @@
         android:color="@color/black" android:width="3dp">
     </stroke>
     <solid
-        android:color="@color/turkiz">
+        android:color="@color/dark_salamon">
 
     </solid>
     <corners
