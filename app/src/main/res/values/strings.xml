@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <resources>
-    <string name="app_name">WorldWideSki</string>
-    <string name="main_screen_title">World Wide Ski</string>
+    <string name="app_name">Chubby Penguin</string>
+    <string name="main_screen_title">Chubby Penguin</string>
     <string name="lets_start_button">Let\'s start</string>
     <string name="language_textView">Language:</string>
     <string name="settings_textView">Settings</string>
